@@ -2,6 +2,10 @@
 class Node
 {
 public:
+
+	int value = 0;
+	Node *left = nullptr;
+	Node *right = nullptr;
 	Node(int data);
 	void setLeft(Node *l);
 	void setRight(Node *r);
@@ -10,9 +14,7 @@ public:
 	virtual ~Node();
 private:
 
-	int value=0;
-	Node *left=nullptr;
-	Node *right=nullptr;
+	
 	
 };
 
