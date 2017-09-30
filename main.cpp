@@ -12,8 +12,10 @@ class Tree
 {
 public:
 	Node *root;
-	Node *ptr;
-	Node *parent;
+	Node *ptr;		//current position of pointer
+	Node *parent;	//parent node of ptr
+	Node *Lchild;	//left child node of ptr
+	Node *Rchild;	//right child node of ptr
 
 	Tree() {
 		root = NULL;
@@ -74,10 +76,14 @@ public:
 		else {
 			
 			ptr = root;
+			Lchild = ptr->left;
+			Rchild = ptr->right;
 			parent = ptr;
 			while (ptr!=nullptr) {
 				if (ptr->value == data) {				/////COMPARE given value with 'ptr' node of tree
 					found = true;
+					Lchild = ptr->left;
+					Rchild = ptr->right;
 					cout << "\n\nSearch completed :) \n" << data << " found "<<endl;
 					cout << "\n Parent of : " << data << " is " << parent->value;
 					return dir;
@@ -129,19 +135,42 @@ public:
 	//	1- element not found
 	int del(int data) {
 		int status=search(data);
-		if (ptr->left == nullptr && ptr->right == nullptr) {
+
+		//element not found
+		if (status == 2) {
+			return 0;
+		}
+		//case 1:node has no child
+
+		if (ptr->left == nullptr && ptr->right == nullptr) { 
+			cout << "\n\n entered node has no child. \n Hence deleting directly.....\n";
 			if (status == 0) {
-				parent->left = nullptr;
 				delete(ptr);
+				parent->left = nullptr;
 				return 1;
 			}
 			else if (status == 1) {
-				parent->right = nullptr;
 				delete(ptr);
+				parent->right = nullptr;
 				return 1;
+			} 
+		}
+		//case 2:node has one child
+		else if (ptr->left == nullptr ^ ptr->right == nullptr) {  // ^ means binary xor operation  
+			if (Lchild != nullptr) {
+				//Node *temp=ptr;
+				ptr = Lchild;
+				delete(Lchild);
+			}else if (Rchild != nullptr) {
+				//Node *temp = ptr;
+				ptr = Rchild;
+				delete(Rchild);
 			}
-			else if (status == 2) {
-				return 0;
+			if (status = 0) {
+				parent->left = ptr;
+			}
+			else if (status = 1) {
+				parent->right = ptr;
 			}
 		}
 		
@@ -380,7 +409,7 @@ int menu() {
 
 int main() {
 
-	bool debugging = false;
+	bool debugging = true;
 	if (!debugging) {
 		menu();
 	}
