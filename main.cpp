@@ -96,9 +96,9 @@ int main() {
 	int values[] = {25,15,10,4,12,22,18,24,50,70,66,90,35,31,44};
 	Tree binary;
 	system("cls");
-	for (int i = 0; i < sizeof(v)/4; i++) {
+	for (int i = 0; i < sizeof(values)/4; i++) {
 		
-		binary.insert(v[i]);
+		binary.insert(values[i]);
 		//cout <<sizeof(v)<<"::"<< v[i]<<endl;
 	}
 	cout << endl << "inorder is::" << endl;
