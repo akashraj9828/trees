@@ -1,0 +1,205 @@
+
+
+
+/*
+
+#include<iostream>
+#include "Node.h"
+#include <windows.h>
+#include<conio.h>
+#include<stdio.h>
+#include<vector>
+#include<math.h>
+#include<stdlib.h>
+using namespace std;
+
+///////////////////////GLOBAL VARIABLES///////////////////////////////
+int i = 100;
+int counter = 0;
+vector<Node> nodesArray;
+//Node *root;
+
+/////////////////////FUNCTION PROTOTYPES////////////////////////////
+BOOL gotoxy(const WORD x, const WORD y);
+int menu();
+void setPos(Node node,Node** root);
+void push();
+void print();
+void pop(int data);
+void preOrder(Node root);
+void setRoot();
+
+
+
+int menu() {
+	
+	system("cls");
+	gotoxy(20, 2);
+	cout << "MENU" << endl;
+	cout << "1.add node" << endl;
+	cout << "2.delete node" << endl;
+	cout << "3.show nodes" << endl;
+	cout << "4.exit" << endl;
+	int choice;
+	cin >> choice;
+	cout << endl;
+
+
+
+	switch (choice) {
+	case 1:
+		push();
+		menu();
+		break;
+
+	case 2:
+		//delete fnx;
+
+	case 3:
+		print();
+		menu();
+	
+	case 4:
+		getch();
+		return 0;
+			
+
+	}
+	
+
+}
+// function to move cursor around
+BOOL gotoxy(const WORD x, const WORD y) {
+	COORD xy;
+	xy.X = x;
+	xy.Y = y;
+	return SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), xy);
+} 
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ #include <stdio.h>
+ #include <stdlib.h>
+
+// /* A binary tree node has data, pointer to left child
+// and a pointer to right child */
+// struct node
+// {
+// 	int data;
+// 	struct node* left;
+// 	struct node* right;
+// };
+
+// /* Helper function that allocates a new node with the
+// given data and NULL left and right pointers. */
+// struct node* newNode(int data)
+// {
+// 	struct node* node = (struct node*)
+// 		malloc(sizeof(struct node));
+// 	node->data = data;
+// 	node->left = NULL;
+// 	node->right = NULL;
+
+// 	return(node);
+// }
+
+// /* Given a binary tree, print its nodes according to the
+// "bottom-up" postorder traversal. */
+// void printPostorder(struct node* node)
+// {
+// 	if (node == NULL)
+// 		return;
+
+// 	// first recur on left subtree
+// 	printPostorder(node->left);
+
+// 	// then recur on right subtree
+// 	printPostorder(node->right);
+
+// 	// now deal with the node
+// 	printf("%d ", node->data);
+// }
+
+// /* Given a binary tree, print its nodes in inorder*/
+// void printInorder(struct node* node)
+// {
+// 	if (node == NULL)
+// 		return;
+
+// 	/* first recur on left child */
+// 	printInorder(node->left);
+
+// 	/* then print the data of node */
+// 	printf("%d ", node->data);
+
+// 	/* now recur on right child */
+// 	printInorder(node->right);
+// }
+
+// /* Given a binary tree, print its nodes in preorder*/
+// void printPreorder(struct node* node)
+// {
+// 	if (node == NULL)
+// 		return;
+
+// 	/* first print data of node */
+// 	printf("%d ", node->data);
+
+// 	/* then recur on left sutree */
+// 	printPreorder(node->left);
+
+// 	/* now recur on right subtree */
+// 	printPreorder(node->right);
+// }
+
+// /* Driver program to test above functions*/
+// int main()
+// {
+// 	struct node *root = newNode(1);
+// 	root->left = newNode(2);
+// 	root->right = newNode(3);
+// 	root->left->left = newNode(4);
+// 	root->left->right = newNode(5);
+	
+
+// 	printf("\nPreorder traversal of binary tree is \n");
+// 	printPreorder(root);
+
+// 	printf("\nInorder traversal of binary tree is \n");
+// 	printInorder(root);
+
+// 	printf("\nPostorder traversal of binary tree is \n");
+// 	printPostorder(root);
+
+// 	getchar();
+// 	return 0;
+// }
+
+
