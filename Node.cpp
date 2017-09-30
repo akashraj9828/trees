@@ -13,7 +13,7 @@ Node::Node(int data)
 
 Node::~Node()
 {
-	std::cout << "destructed";
+	std::cout <<std::endl<<"\n\n\n\n node:: "<<value<< " ::destructed";
 }
 
 

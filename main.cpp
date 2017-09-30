@@ -4,6 +4,7 @@
 #include<stdlib.h>
 #include<Windows.h>
 #include<vector>
+#include<cstdlib>
 using namespace std;
 
 int menu();
@@ -18,64 +19,9 @@ public:
 		root = NULL;
 		ptr = root;
 	}
-
-	void search(int data) {
-
-		bool found = false;
-		if (root == NULL) {
-			cout << "\n\n\n\n\t\t\t\t tree is empty :(";
-		}
-		else {
-			Node *parent;
-			ptr = root;
-			parent = ptr;
-			while (ptr!=nullptr) {
-				if (data == ptr->value) {				/////COMPARE given value with 'ptr' node of tree
-					found = true;
-					cout << "\n\nSearch completed :) \n" << data << " found "<<endl;
-					cout << "\n Parent of : " << data << " is " << parent->value;
-					return;
-
-				}
-				else
-					if (data < ptr->value) {			/////if value to be searched is less than current node value then
-					
-					if (ptr->left != nullptr) {
-						parent = ptr;
-						cout << ptr->value<<"->";
-						ptr = ptr->left;				//////set current node to node in its left
-						continue;
-					}
-					else {
-						cout << ptr->value << "->NULL"; 
-						cout << "\n\n\n\n\n\t\t\t\t\t element not found in tree";
-						return;
-					}
-				}
-				else 
-					if(data>ptr->value){		/////if value to be searched is greater than current node value then
-					
-					if (ptr->right != nullptr ) {
-						parent = ptr;
-						cout << ptr->value << "->";
-						ptr = ptr->right;				//////set current node to node in its right
-						continue;
-					}
-					else {
-						cout << ptr->value << "->NULL";
-						cout << "\n\n\n\n\n\t\t\t\t\t element not found in tree";
-						return;
-					}
-					
-				}
-				
-
-			}
-			
-		}
-		
+	~Tree() {
+		cout << "tree destroyed";
 	}
-
 	void insert(int data) {
 
 		if (root == NULL) {
@@ -114,7 +60,93 @@ public:
 			}
 		}
 	}
+	//return codes for search
+	//0-element found on left link of parent
+	//1-element found on right link of parent
+	//2-element not found
+	int search(int data) {				
+		int dir;						
+		bool found = false;				
+		if (root == NULL) {				
+			cout << "\n\n\n\n\t\t\t\t tree is empty :(";
+			return 2;
+		}		
+		else {
+			
+			ptr = root;
+			parent = ptr;
+			while (ptr!=nullptr) {
+				if (ptr->value == data) {				/////COMPARE given value with 'ptr' node of tree
+					found = true;
+					cout << "\n\nSearch completed :) \n" << data << " found "<<endl;
+					cout << "\n Parent of : " << data << " is " << parent->value;
+					return dir;
 
+				}
+				else
+					if (data < ptr->value) {			/////if value to be searched is less than current node value then
+					
+					if (ptr->left != nullptr) {
+						parent = ptr;
+						cout << ptr->value<<"->";
+						ptr = ptr->left;				//////set current node to node in its left
+						dir = 0;
+						continue;
+					}
+					else {
+						cout << ptr->value << "->NULL"; 
+						cout << "\n\n\n\n\n\t\t\t\t\t element not found in tree";
+						return 2;
+					}
+				}
+				else 
+					if(data>ptr->value){		/////if value to be searched is greater than current node value then
+					
+					if (ptr->right != nullptr ) {
+						parent = ptr;
+						cout << ptr->value << "->";
+						ptr = ptr->right;				//////set current node to node in its right
+						dir = 1;
+						continue;
+					}
+					else {
+						cout << ptr->value << "->NULL";
+						cout << "\n\n\n\n\n\t\t\t\t\t element not found in tree";
+						return 2;
+					}
+					
+				}
+				
+
+			}
+			
+		}
+		
+	}
+
+	//return code for delete
+	//	0- sucessfully deleted
+	//	1- element not found
+	int del(int data) {
+		int status=search(data);
+		if (ptr->left == nullptr && ptr->right == nullptr) {
+			if (status == 0) {
+				parent->left = nullptr;
+				delete(ptr);
+				return 1;
+			}
+			else if (status == 1) {
+				parent->right = nullptr;
+				delete(ptr);
+				return 1;
+			}
+			else if (status == 2) {
+				return 0;
+			}
+		}
+		
+
+	}
 
 	void inorder(const Node *root)const {
 		if (root != NULL) {
@@ -197,16 +229,39 @@ void addNode() {
 void searchNode() {
 	system("cls");
 	cout << "\n NODE SEARCH MENU ::\n\n";
-	cout << "\n ENTER THE NODE's TO BE SEARCHED:\t";
+	cout << "\n ENTER THE NODE TO BE SEARCHED:\t";
 	int data;
 	cin >> data;
 	binary.search(data);
-	//cout << "\n\n\t" << data << " succesfully inserted in tree";
 	cout << "\n\n\tdo you wish to search another node?(y/n)\n\n";
 	char c;
 	cin >> c;
 	if (c == 'y' || c == 'Y') {
 		searchNode();
+	}
+	else {
+		menu();
+	}
+
+}
+void deleteNode() {
+	system("cls");
+	cout << "\n NODE DELETION MENU ::\n\n";
+	cout << "\n ENTER THE NODE TO BE DELETED:\t";
+	int data;
+	cin >> data;
+	int status=binary.del(data);
+	if (status == 1) {
+		cout << "\n\n\t" << data << " succesfully deleted from tree";
+		cout << "\n\n\t do you wish to delete another node?(y/n)\n\n";
+	}
+	else {
+		cout << "\n\n\t do you wish to delete another node?(y/n)\n\n";
+	}
+	char c;
+	cin >> c;
+	if (c == 'y' || c == 'Y') {
+		deleteNode();
 	}
 	else {
 		menu();
@@ -278,9 +333,10 @@ void operation(int choice) {
 		addNode();
 		break;
 	case 2:
-		cout << "\n\n\n\n\n\t\t\t\t\t\t\t WORK IN PROGRESS";
-		cout << "\n\t\t\t\t\t\t\t WILL BE IMPLEMENTED SOON";
-		menu();
+		deleteNode();
+		//cout << "\n\n\n\n\n\t\t\t\t\t\t\t WORK IN PROGRESS";
+		//cout << "\n\t\t\t\t\t\t\t WILL BE IMPLEMENTED SOON";
+		//menu();
 		break;
 	case 3:
 		printNode();
