@@ -12,8 +12,10 @@ Node::Node(int data)
 }
 
 Node::~Node()
-{
-	std::cout <<std::endl<<"\n\n\n\n node:: "<<value<< " ::destructed";
+{	
+	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<std::endl;
+	std::cout << "\t~~~~~~~~~~~~~~~node:: " << value << " ::destructed ~~~~~~~~~~~~~~~" << std::endl;
+	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
 }
 
 

@@ -6,37 +6,52 @@
 #include<vector>
 #include<cstdlib>
 using namespace std;
-
+#define max 900
 int menu();
 class Tree
 {
 public:
-	Node *root;
-	Node *ptr;		//current position of pointer
-	Node *parent;	//parent node of ptr
-	Node *Lchild;	//left child node of ptr
-	Node *Rchild;	//right child node of ptr
-
+	Node* root;
+	Node* ptr;		//current position of pointer
+	Node* parent;	//parent node of ptr
+	Node* Lchild;	//left child node of ptr
+	Node* Rchild;	//right child node of ptr
+	
+	vector<Node*> inorderArray;
+	int i;
 	Tree() {
 		root = NULL;
 		ptr = root;
+		
 	}
 	~Tree() {
 		cout << "tree destroyed";
 	}
-	void insert(int data) {
 
+	void insert(int data) {
+		
+
+		cout << "\n\n\n\t\t" << "~~~~~~~~~~~~~~ADDITION~~~~~~~~~~~~~~" << endl;
+		cout << "\n\n\t\t\t" << "Inserting " << data << " in tree" << endl;
+		
+		
 		if (root == NULL) {
+			cout << "\n\n\t\t\t" << "Tree is empty ";
+			cout << "\n\t\t\t" <<data<< " is added as first element of tree\n\n";
+			cout << "->" << data;
+			cout << "\n\t\t\t ";
 			Node *temp = new Node(data);
 			root = temp;
 		}
 		else {
+			cout << "\n\t\t\t Path:";
 			ptr = root;
 			while (true) {
 				if (data < ptr->value) {
 					// if the current node already has left child
 					// so we concern it further
 					if (ptr->left != NULL) {
+						cout << ptr->value<<"->";
 						ptr = ptr->left;
 						continue;
 						// if the current node has no left child
@@ -44,6 +59,8 @@ public:
 					}
 					else {
 						ptr->left = new Node(data);
+						cout <<"("<< ptr->left->value<<")" << "\t <<-(new node added here)";
+						cout << "\n\n\n\n\t\t\t" << data << " succesfully inserted in tree";
 						return;
 					}
 				}
@@ -51,11 +68,14 @@ public:
 					// similarly for the value that should be inserted into
 					// right subtree
 					if (NULL != ptr->right) {
+						cout << ptr->value << "->";
 						ptr = ptr->right;
 						continue;
 					}
 					else {
 						ptr->right = new Node(data);
+						cout << "(" << ptr->right->value << ")" << "\t <<-(new node added here)";
+						cout << "\n\n\n\n\t\t\t" << data << " succesfully inserted in tree";
 						return;
 					}
 				}
@@ -66,14 +86,30 @@ public:
 	//0-element found on left link of parent
 	//1-element found on right link of parent
 	//2-element not found
+	//3-element found at root
 	int search(int data) {				
 		int dir;						
-		bool found = false;				
+		bool found = false;
+
+		cout << "\n\n\n\t\t" << "~~~~~~~~~~~~~~SEARCHING~~~~~~~~~~~~~~" << endl;
+		cout << "\n\n\t\t\t" << "Searching for " << data << " in tree" << endl;
+		cout << "\n\t\t\t Path:";
 		if (root == NULL) {				
-			cout << "\n\n\n\n\t\t\t\t tree is empty :(";
+			cout << "\n\n\n\n\t\t\t\t Tree is empty :(";
 			return 2;
 		}		
-		else {
+		else if (root->value == data) {
+			ptr = root;
+			parent = ptr;
+			Rchild = ptr->right;
+			Lchild = ptr->left;
+			cout << "\n\n\n\t\t\tSearch completed :)";
+			cout<<"\n\t\t\t"<< data << " found " << endl;
+			cout << "\n\t\t "<< data << " is root of tree ";
+			return 3;
+		}
+		else
+		{
 			
 			ptr = root;
 			Lchild = ptr->left;
@@ -84,8 +120,14 @@ public:
 					found = true;
 					Lchild = ptr->left;
 					Rchild = ptr->right;
-					cout << "\n\nSearch completed :) \n" << data << " found "<<endl;
-					cout << "\n Parent of : " << data << " is " << parent->value;
+					cout << ptr->value;
+					cout << "\n\n\n\t\t\tSearch completed :) \n"; 
+					cout << "\n\t\t\t" << data << " found " << endl;
+					cout << "\n\t\t\t Parent of  " << data << " is " << parent->value;
+					if(Lchild!=nullptr)
+					cout<< "\n\t\t\t Left child of  " << data << " is " << Lchild->value;
+					if (Rchild != nullptr)
+					cout<< "\n\t\t\t Right child of  " << data << " is " << Rchild->value;
 					return dir;
 
 				}
@@ -101,7 +143,7 @@ public:
 					}
 					else {
 						cout << ptr->value << "->NULL"; 
-						cout << "\n\n\n\n\n\t\t\t\t\t element not found in tree";
+						cout << "\n\n\n\t\t\t Element not found in tree";
 						return 2;
 					}
 				}
@@ -117,7 +159,7 @@ public:
 					}
 					else {
 						cout << ptr->value << "->NULL";
-						cout << "\n\n\n\n\n\t\t\t\t\t element not found in tree";
+						cout << "\n\n\n\t\t\t Element not found in tree";
 						return 2;
 					}
 					
@@ -134,16 +176,18 @@ public:
 	//	0- sucessfully deleted
 	//	1- element not found
 	int del(int data) {
-		int status=search(data);
-
+		int status = search(data);
+		
 		//element not found
 		if (status == 2) {
 			return 0;
+		}else{
+			cout << "\n\n\n\t\t" << "~~~~~~~~~~~~~~DELETION~~~~~~~~~~~~~~" << endl;
+			cout << "\n\n\t\t\t" << "deleting " << data << " from tree" << endl;
 		}
 		//case 1:node has no child
-
-		if (ptr->left == nullptr && ptr->right == nullptr) { 
-			cout << "\n\n entered node has no child. \n Hence deleting directly.....\n";
+		if (ptr->left == nullptr && ptr->right == nullptr) {
+			cout << "\n\n\t\t\t"<<" Entered node has no child. \n\t\t\t Hence deleting directly.....\n";
 			if (status == 0) {
 				delete(ptr);
 				parent->left = nullptr;
@@ -153,62 +197,98 @@ public:
 				delete(ptr);
 				parent->right = nullptr;
 				return 1;
-			} 
-		}
-		//case 2:node has one child
-		else if (ptr->left == nullptr ^ ptr->right == nullptr) {  // ^ means binary xor operation  
-			if (Lchild != nullptr) {
-				//Node *temp=ptr;
-				ptr = Lchild;
-				delete(Lchild);
-			}else if (Rchild != nullptr) {
-				//Node *temp = ptr;
-				ptr = Rchild;
-				delete(Rchild);
-			}
-			if (status = 0) {
-				parent->left = ptr;
-			}
-			else if (status = 1) {
-				parent->right = ptr;
 			}
 		}
-		
+		//case 2: node has one child
+		else if ((ptr->left == nullptr) ^ (ptr->right == nullptr)) {  // ^ means binary xor operation  
+			cout << "\n\n\t\t\t" << " Entered node has one child. \n Hence chid node replaces parent node.....\n";
+			if (status == 0) {
+				if (Lchild != nullptr) {
+					parent->left = Lchild;
 
-	}
+				}
+				else if (Rchild != nullptr) {
+					parent->left = Rchild;
 
-	void inorder(const Node *root)const {
-		if (root != NULL) {
-			inorder(root->left);
-			cout << root->value << '\t';
-			inorder(root->right);
+				}
+
+			}
+			else if (status == 1) {
+				if (Lchild != nullptr) {
+					parent->right = Lchild;
+				}
+				else if (Rchild != nullptr) {
+					parent->right = Rchild;
+				}
+
+			}
+			delete ptr;
+		}
+		//case 3: node has two child
+		else if ((ptr->left != nullptr) && (ptr->right != nullptr)) {
+
+			cout << "\n\n\t\t\t" << " Entered node has two child. \n Hence finding inorder and replacing parent with its inorder sucessor.....\n";
+			
+			inorderArray.erase(inorderArray.begin(), inorderArray.end());
+			cout << "\n\n" << "Inorder of the tree about node " << ptr->value << " is::\n";
+			inorder(ptr);
+			
+			int pos;
+			for (int i = 0; i < inorderArray.size(); i++) {
+				
+				if (inorderArray[i]->value == data) {
+					
+					cout << "\n\n" << data << " is at pos: " << i+1;
+					pos = i;
+					break;
+				}
+			}
+			int succesor_value = inorderArray[pos+1]->value;
+			cout << "\n\nAnd its sucessor is:::" << succesor_value;
+			cout << "\n\n\t\t Therefore copying the value of succesor " << succesor_value << " in " << ptr->value;
+			cout << "\n\t\t And deleting the sucessor " << succesor_value<<"\n";
+			cout << "\n\n*****************************************************************************************************";
+			cout << "\n*****************************************************************************************************";
+			cout << "\n*****************************************************************************************************\n\n";
+			del(inorderArray[pos + 1]->value);
+			inorderArray[pos]->value = succesor_value;
+			
+			
 		}
 	}
 
-	void preorder(const Node *root)const {
 
-		if (root != NULL) {
-			cout << root->value << '\t';
-			preorder(root->left);
-			preorder(root->right);
+		void inorder(Node *node) {
+			if (node != NULL) {
+				inorder(node->left);
+				cout << node->value << '\t';
+				inorderArray.push_back(node);
+				inorder(node->right);
+			}
 		}
-	}
 
-	void postorder(const Node *root)const {
-		if (root != NULL) {
-			postorder(root->left);
-			postorder(root->right);
-			cout << root->value << '\t';
+		void preorder( Node *root) {
+
+			if (root != NULL) {
+				cout << root->value << '\t';
+				preorder(root->left);
+				preorder(root->right);
+			}
 		}
-	}
 
-	Node* getroot() {
-		return root;
-	}
+		void postorder( Node *root) {
+			if (root != NULL) {
+				postorder(root->left);
+				postorder(root->right);
+				cout << root->value << '\t';
+			}
+		}
 
-	void inorder() const {
-		inorder(root);
-	};
+		Node* getroot() {
+			return root;
+		}
+
+	
 };
 
 Tree binary;
@@ -233,7 +313,8 @@ COORD getsize() {
 }
 
 void printVector(vector<int> v) {
-	for (int i = 0; i < v.size(); i++)
+	int i = 0;
+	for (i = 0; i < v.size(); i++)
 		cout << v[i] << '\t';
 }
 
@@ -244,8 +325,7 @@ void addNode() {
 	int data;
 	cin >> data;
 	binary.insert(data);
-	cout << "\n\n\t" << data << " succesfully inserted in tree";
-	cout << "\n\n\tdo you wish to insert more node?(y/n)\n\n";
+	cout << "\n\n\t\t Do you wish to insert more node?(y/n)\n\n";
 	char c;
 	cin >> c;
 	if (c == 'y' || c == 'Y') {
@@ -282,10 +362,10 @@ void deleteNode() {
 	int status=binary.del(data);
 	if (status == 1) {
 		cout << "\n\n\t" << data << " succesfully deleted from tree";
-		cout << "\n\n\t do you wish to delete another node?(y/n)\n\n";
+		cout << "\n\n\t\t do you wish to delete another node?(y/n)\n\n";
 	}
 	else {
-		cout << "\n\n\t do you wish to delete another node?(y/n)\n\n";
+		cout << "\n\n\t\t do you wish to delete another node?(y/n)\n\n";
 	}
 	char c;
 	cin >> c;
@@ -299,7 +379,7 @@ void deleteNode() {
 }
 void printNode() {
 	system("cls");
-	cout << "IN WHICH FORM DO U WISH TO SEE OUTPUT:";
+	cout << "IN WHICH FORM DO YOU WISH TO SEE OUTPUT:";
 	cout << "\n\t 1. PREORDER";
 	cout << "\n\t 2. INORDER";
 	cout << "\n\t 3. POSTORDER";
@@ -308,49 +388,49 @@ void printNode() {
 	int order;
 	cin >> order;
 	system("cls");
+	cout << "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TREE TRAVERSAL~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
 	cout << "\n\n\n\n";
 	switch (order) {
 	case 1:
-		cout << endl << "preorder is::" << endl;
+		cout << endl << endl << "PREORDER TRAVERSAL::" << endl;
 		binary.preorder(binary.root);
-		getch();
+		_getch();
 		printNode();
 		break;
 	case 2:
-		cout << endl << "inorder is::" << endl;
+		cout << endl << endl << "INORDER TRAVERSAL:::" << endl;
 		binary.inorder(binary.root);
-		getch();
+		_getch();
 		printNode();
 		break;
 	case 3:
-		cout << endl << "postorder is::" << endl;
+		cout << endl << endl <<"POSTORDER TRAVERSAL::" << endl;
 		binary.postorder(binary.root);
-		getch();
+		_getch();
 		printNode();
 		break;
 	case 4:
-		cout << endl << "inorder is::" << endl;
-		binary.inorder(binary.root);
-		cout << endl << "preorder is::" << endl;
+		cout << endl << endl << "PREORDER TRAVERSAL::" << endl;
 		binary.preorder(binary.root);
-		cout << endl << "postorder is::" << endl;
+		cout << endl<<endl << "INORDER TRAVERSAL:::" << endl;
+		binary.inorder(binary.root);
+		cout << endl << endl << "POSTORDER TRAVERSAL::" << endl;
 		binary.postorder(binary.root);
-		getch();
+		_getch();
 		printNode();
 		break;
 	case 5:
 		menu();
 		break;
 	default:
-		cout << endl << "inorder is::" << endl;
-		binary.inorder(binary.root);
-		cout << endl << "preorder is::" << endl;
-		binary.preorder(binary.root);
-		cout << endl << "postorder is::" << endl;
-		binary.postorder(binary.root);
-		getch();
+		cout << "\n\n\n\n\t\t\t\t\t\t\t\t *_* *_* *_* *_* *_*";
+		cout << "\n\t\t\t\t\t\t\t\t Oops WRONG CHOICE!!";
+		cout << "\n\t\t\t\t\t\t\t\t      Try again!";
+		cout << "\n\t\t\t\t\t\t\t\t *_* *_* *_* *_* *_*";
+		_getch();
 		printNode();
 		break;
+		
 
 
 	}
@@ -375,7 +455,7 @@ void operation(int choice) {
 		break;
 	case 5:
 		cout << "\n\n\n\n\n\t\t\t\t\t\t\t PRESS ANY KEY TO EXIT !";
-		getch();
+		_getch();
 		return;
 		break;
 	default:
@@ -383,7 +463,7 @@ void operation(int choice) {
 		cout << "\n\t\t\t\t\t\t Oops WRONG CHOICE!!";
 		cout << "\n\t\t\t\t\t\t   Try again!";
 		cout << "\n\t\t\t\t\t\t *_* *_* *_* *_* *_*";
-		getch();
+		_getch();
 		menu();
 		break;
 	}
@@ -433,7 +513,7 @@ int main() {
 		cout << endl << "postorder is::" << endl;
 		binary.postorder(binary.root);
 		menu();
-		getch();
+		_getch();
 	}
 
 
