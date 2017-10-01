@@ -5,8 +5,11 @@
 #include<Windows.h>
 #include<vector>
 #include<cstdlib>
+#include<SDL2\SDL.h>
+#include<gl\glew.h>
+#include"display.h"
+
 using namespace std;
-#define max 900
 int menu();
 class Tree
 {
@@ -497,9 +500,23 @@ int menu() {
 	return 0;
 }
 
+int window() {
+	int a;
+	Display display(400, 400, "OpenGL");
+	while (!display.isClosed()) {
+		glClearColor(0.0f, 0.5f, 0.6f, 1.9f);
+		glClear(GL_COLOR_BUFFER_BIT);
+		display.Update();
 
-int main() {
-
+		std::cin >> a;
+		return 0;
+	}
+}
+int main(int argc, char **argv) {
+	bool dis = true;
+	
+	window();
+	
 	bool debugging = true;
 	if (!debugging) {
 		menu();
@@ -527,7 +544,7 @@ int main() {
 		_getch();
 	}
 
-
+	
 	return 0;
 }
 
