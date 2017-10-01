@@ -45,6 +45,7 @@ public:
 		}
 		else {
 			cout << "\n\t\t\t Path:";
+			cout << root->value << "->";
 			ptr = root;
 			while (true) {
 				if (data < ptr->value) {
@@ -169,6 +170,8 @@ public:
 			}
 			
 		}
+
+		return 2;
 		
 	}
 
@@ -223,6 +226,7 @@ public:
 
 			}
 			delete ptr;
+			return 0;
 		}
 		//case 3: node has two child
 		else if ((ptr->left != nullptr) && (ptr->right != nullptr)) {
@@ -255,13 +259,14 @@ public:
 			
 			
 		}
+		return 1;
 	}
 
 
 		void inorder(Node *node) {
 			if (node != NULL) {
 				inorder(node->left);
-				cout << node->value << '\t';
+				cout << node->value<< "-->";
 				inorderArray.push_back(node);
 				inorder(node->right);
 			}
@@ -270,7 +275,7 @@ public:
 		void preorder( Node *root) {
 
 			if (root != NULL) {
-				cout << root->value << '\t';
+				cout << root->value <<"-->";
 				preorder(root->left);
 				preorder(root->right);
 			}
@@ -280,7 +285,7 @@ public:
 			if (root != NULL) {
 				postorder(root->left);
 				postorder(root->right);
-				cout << root->value << '\t';
+				cout << root->value << "--> ";
 			}
 		}
 
@@ -313,8 +318,8 @@ COORD getsize() {
 }
 
 void printVector(vector<int> v) {
-	int i = 0;
-	for (i = 0; i < v.size(); i++)
+	
+	for (int i = 0; i < v.size(); i++)
 		cout << v[i] << '\t';
 }
 
@@ -394,28 +399,34 @@ void printNode() {
 	case 1:
 		cout << endl << endl << "PREORDER TRAVERSAL::" << endl;
 		binary.preorder(binary.root);
+		cout << "NULL";
 		_getch();
 		printNode();
 		break;
 	case 2:
 		cout << endl << endl << "INORDER TRAVERSAL:::" << endl;
 		binary.inorder(binary.root);
+		cout << "NULL";
 		_getch();
 		printNode();
 		break;
 	case 3:
 		cout << endl << endl <<"POSTORDER TRAVERSAL::" << endl;
 		binary.postorder(binary.root);
+		cout << "NULL";
 		_getch();
 		printNode();
 		break;
 	case 4:
 		cout << endl << endl << "PREORDER TRAVERSAL::" << endl;
 		binary.preorder(binary.root);
+		cout << "NULL";
 		cout << endl<<endl << "INORDER TRAVERSAL:::" << endl;
 		binary.inorder(binary.root);
+		cout << "NULL";
 		cout << endl << endl << "POSTORDER TRAVERSAL::" << endl;
 		binary.postorder(binary.root);
+		cout << "NULL";
 		_getch();
 		printNode();
 		break;

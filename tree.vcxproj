@@ -149,6 +149,12 @@
   <ItemGroup>
     <ClInclude Include="Node.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Debug\tree.exe" />
+    <None Include="Release\tree.exe">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

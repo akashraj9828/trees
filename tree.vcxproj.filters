@@ -30,4 +30,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Debug\tree.exe" />
+    <None Include="Release\tree.exe" />
+  </ItemGroup>
 </Project>
