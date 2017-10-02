@@ -64,6 +64,7 @@ void searchNode() {
 	int data;
 	cin >> data;
 	binary.search(data);
+	cout << "\n\n\t\t" << "~~~~~~~~~~~~~~SEARCH-COMPLETE~~~~~~~~~~~~~~" << endl;
 	cout << "\n\n\tdo you wish to search another node?(y/n)\n\n";
 	char c;
 	cin >> c;
@@ -83,7 +84,7 @@ void deleteNode() {
 	cin >> data;
 	int status=binary.del(data);
 	if (status == 1) {
-		cout << "\n\n\t" << data << " succesfully deleted from tree";
+		cout << "\n\n\t\t" << data << " succesfully deleted from tree";
 		cout << "\n\n\t\t do you wish to delete another node?(y/n)\n\n";
 	}
 	else {
@@ -182,8 +183,6 @@ void operation(int choice) {
 		searchNode();
 		break;
 	case 5:
-		cout << "\n\n\n\n\n\t\t\t\t\t\t\t PRESS ANY KEY TO EXIT !";
-		_getch();
 		return;
 		break;
 	default:

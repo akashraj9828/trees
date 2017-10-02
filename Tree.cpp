@@ -16,7 +16,9 @@ Tree::Tree() {
 
 }
 Tree::~Tree() {
-	cout << "tree destroyed";
+	cout << "\t\t\t\t***************** Tree destroyed *****************";
+	cout << "\n\n\n\t\t\t\t\t   PRESS ANY KEY TO EXIT !";
+	_getch();
 }
 
 void Tree::insert(int data) {
@@ -174,7 +176,7 @@ int Tree::del(int data) {
 
 	//element not found
 	if (status == 2) {
-		return 0;
+		return 1;
 	}
 	else {
 		cout << "\n\n\n\t\t" << "~~~~~~~~~~~~~~DELETION~~~~~~~~~~~~~~" << endl;
@@ -183,26 +185,35 @@ int Tree::del(int data) {
 	//case 1:node has no child
 	if (ptr->left == nullptr && ptr->right == nullptr) {
 		cout << "\n\n\t\t\t" << " Entered node has no child. \n\t\t\t Hence deleting directly.....\n";
+		cout << "\nSteps:\n";
 		if (status == 0) {
-			delete(ptr);
-			parent->left = nullptr;
-			return 1;
+			cout << "\n 1. Setting " << parent->value << "'s left to NULL. ";
+			parent->left = nullptr;	
 		}
 		else if (status == 1) {
-			delete(ptr);
+			cout << "\n 1. Setting " << parent->value << "'s right to NULL ";
 			parent->right = nullptr;
-			return 1;
 		}
+		cout << "\n 2. Deleting " << ptr->value;
+		delete(ptr);
+		cout << "\n\n*****************************************************************************************************";
+		cout << "\n*****************************************************************************************************";
+		cout << "\n*****************************************************************************************************\n\n";
+
+		return 0;
 	}
 	//case 2: node has one child
 	else if ((ptr->left == nullptr) ^ (ptr->right == nullptr)) {  // ^ means binary xor operation  
-		cout << "\n\n\t\t\t" << " Entered node has one child. \n Hence chid node replaces parent node.....\n";
+		cout << "\n\n\t\t\t" << " Entered node has one child. \n\t\t\t Hence chid node replaces parent node.....\n";
+		cout << "Steps:";
 		if (status == 0) {
 			if (Lchild != nullptr) {
+				cout << "\n 1. Setting " << parent->value << "'s left to " << Lchild->value;
 				parent->left = Lchild;
 
 			}
 			else if (Rchild != nullptr) {
+				cout << "\n 1. Setting " << parent->value << "'s left to " << Rchild->value;
 				parent->left = Rchild;
 
 			}
@@ -210,20 +221,26 @@ int Tree::del(int data) {
 		}
 		else if (status == 1) {
 			if (Lchild != nullptr) {
+				cout << "\n 1. Setting " << parent->value << "'s right to " << Lchild->value;
 				parent->right = Lchild;
 			}
 			else if (Rchild != nullptr) {
+				cout << "\n 1. Setting " << parent->value << "'s right to " << Rchild->value;
 				parent->right = Rchild;
 			}
 
 		}
+		cout << "\n 2. Deleting " << ptr->value;
 		delete ptr;
+		cout << "\n\n*****************************************************************************************************";
+		cout << "\n*****************************************************************************************************";
+		cout << "\n*****************************************************************************************************\n\n";
 		return 0;
 	}
 	//case 3: node has two child
 	else if ((ptr->left != nullptr) && (ptr->right != nullptr)) {
 
-		Node* toBeDeleted =ptr;					//node to be deleted
+		Node* toBeDeleted =ptr;				//node to be deleted
 		Node* toBeDeleted_Parent = parent;		//parent of node to be deleted
 		int pos;								//pos=position of (node to be deleted) in inorderArray 
 		cout << "\n\n\t\t\t" << " Entered node has two child. \n Hence finding inorder and replacing parent with its inorder sucessor.....\n";
@@ -248,7 +265,7 @@ int Tree::del(int data) {
 		//if succesor_branch=0 means its on left link of its parent
 		//if succesor_branch=1 means its on right link of its parent
 		int sucessor_branch = search(succesor_value);		//by searching again we are resetting ptr and parent according to sucessor
-		
+		cout << "\n\nSteps:";
 		cout << "\n\n{ Removing any link of "<<succesor_value<<" from its parent }";
 		if (sucessor_branch == 0) {
 			cout << "\n 1. setting "<<parent->value<<"'s left to NULL";
@@ -257,17 +274,24 @@ int Tree::del(int data) {
 			cout << "\n 1. setting " << parent->value << "'s right to NULL";
 			parent->right = nullptr;
 		}
-
-		cout << "\n\n{ Setting pointers of " << toBeDeleted_Parent->value << " and " << succesor_value<<" }";
-		cout << "\n{ Then deleting " << toBeDeleted->value<<" }";
-		if (status == 0) {
-			cout << "\n 2. Setting " << toBeDeleted_Parent->value << "'s left to "<< succesor->value;
-			toBeDeleted_Parent->left = succesor;
+		if (status == 3) {	////entered elemnt is root
+			cout << "\n\n{ Entered element is root and has no parents }";
+			cout << "{ Therefore " << succesor_value << " will take place of root }";
+			cout << "\n 2. Setting root = " << succesor_value;
+			root = succesor;
+		}else if (status != 3) {
+			cout << "\n\n{ Setting pointers of " << toBeDeleted_Parent->value << " and " << succesor_value << " }";
+			cout << "\n{ Then deleting " << toBeDeleted->value << " }";
+			if (status == 0) {
+				cout << "\n 2. Setting " << toBeDeleted_Parent->value << "'s left to " << succesor->value;
+				toBeDeleted_Parent->left = succesor;
+			}
+			else if (status == 1) {
+				cout << "\n 2. Setting " << toBeDeleted_Parent->value << "'s right to " << succesor->value;
+				toBeDeleted_Parent->right = succesor;
+			}
 		}
-		else if (status == 1) {
-			cout << "\n 2. Setting " << toBeDeleted_Parent->value << "'s right to " << succesor->value;
-			toBeDeleted_Parent->right = succesor;
-		}
+		
 		if (toBeDeleted->left != nullptr) {
 			cout << "\n 3. Setting " << succesor->value << "'s left to " << toBeDeleted->left->value;
 			succesor->left = toBeDeleted->left;
@@ -282,6 +306,7 @@ int Tree::del(int data) {
 		else {
 			cout << "\n 3. " << succesor->value << "'s right cant be set ";
 		}
+		
 		cout << "\n 5. Deleting " << toBeDeleted->value;
 		delete(toBeDeleted);
 
