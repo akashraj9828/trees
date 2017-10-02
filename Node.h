@@ -6,6 +6,7 @@ public:
 
 	int value;
 	int level;
+	int gap;
 	COORD pos;
 	Node *left;
 	Node *right;

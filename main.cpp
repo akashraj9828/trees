@@ -17,16 +17,6 @@ Tree binary;
 
 
 
-COORD getsize() {
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-
-	COORD xy;
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-	xy.X = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-	xy.Y = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
-	cout << "window size is: " << endl << "X:" << xy.X << endl << "Y:" << xy.Y << endl;
-	return xy;
-}
 
 void printVector(vector<int> v) {
 	
@@ -179,8 +169,10 @@ void operation(int choice) {
 	case 5:
 		binary.setPos(binary.root);
 		_getch();
+		system("cls");
 		binary.plot(binary.root);
 		_getch();
+		menu();
 		break;
 	case 6:
 		return;
@@ -198,7 +190,6 @@ void operation(int choice) {
 int menu() {
 
 	system("cls");
-	COORD xy = getsize();
 	//gotoxy(xy.X / 2 - 10, xy.Y / 3);
 	cout << "\n\n\n";
 	cout << "BINARY TREE MENU" << endl;

@@ -17,10 +17,21 @@ BOOL gotoxy(const WORD x, const WORD y) {
 	return SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), xy);
 }
 
+COORD getsize() {
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+	COORD xy;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	xy.X = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+	xy.Y = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+	//cout << "window size is: " << endl << "X:" << xy.X << endl << "Y:" << xy.Y << endl;
+	return xy;
+}
 
 Tree::Tree() {
 	root = NULL;
 	ptr = root;
+	maxLevel = 0;
 
 }
 Tree::~Tree() {
@@ -43,9 +54,11 @@ void Tree::insert(int data) {
 		cout << "\n\t\t\t ";
 		Node *temp = new Node(data);
 		root = temp;
-		root->pos.X = 60;
-		root->pos.Y = 5;
+		COORD tempc = getsize();
+		root->pos.X = tempc.X / 2;
+		root->pos.Y = tempc.Y / 20;
 		root->level = 0;
+		root->gap = 30;
 	}
 	else {
 		cout << "\n\t\t\t Path:";
@@ -65,8 +78,13 @@ void Tree::insert(int data) {
 				else {
 					ptr->left = new Node(data);
 					ptr->left->level = ptr->level + 1;
+					ptr->left->gap = (ptr->gap / 2);
 					cout << "(" << ptr->left->value << ")" << "\t <<-(new node added here)";
 					cout << "\n\n\n\n\t\t\t" << data << " succesfully inserted in tree";
+					if (ptr->left->level > maxLevel) {
+						maxLevel = ptr->left->level;
+						root->gap = maxLevel * 10;
+					}
 					return;
 				}
 			}
@@ -81,8 +99,13 @@ void Tree::insert(int data) {
 				else {
 					ptr->right = new Node(data);
 					ptr->right->level = ptr->level + 1;
+					ptr->right->gap = (ptr->gap / 2);
 					cout << "(" << ptr->right->value << ")" << "\t <<-(new node added here)";
 					cout << "\n\n\n\n\t\t\t" << data << " succesfully inserted in tree";
+					if (ptr->right->level > maxLevel) {
+						maxLevel = ptr->right->level;
+						root->gap = maxLevel * 10;
+					}
 					return;
 				}
 			}
@@ -365,56 +388,158 @@ void Tree::postorder(Node *node) {
 	}
 }
 
-BOOL once = false;
+
 
 void Tree::setPos(Node * node)
 {
-	if (!once) {
-		once = true;
-		node->left->pos.X = node->pos.X - 15;
-		node->right->pos.X = node->pos.X + 15;
-		node->left->pos.Y = node->pos.Y + 4;
-		node->right->pos.Y = node->pos.Y + 4;
+	COORD tempc = getsize();
+	root->pos.X = tempc.X / 2;
+	root->pos.Y = tempc.Y / 20;
+	if (node->left) {
+		node->left->pos.X = node->pos.X + 1 - node->gap;
+		node->left->pos.Y = node->pos.Y + 6;
 		cout << node->left->value << "\t";
 		cout << node->left->pos.X << ":::" << node->left->pos.Y << "::level " << node->left->level << endl;
+		setPos(node->left);
+	}
+	if (node->right) {
+
+		node->right->pos.X = node->pos.X - 1 + node->gap;
+		node->right->pos.Y = node->pos.Y + 6;
 		cout << node->right->value << "\t";
 		cout << node->right->pos.X << ":::" << node->right->pos.Y << "::level " << node->right->level << endl;
-		setPos(node->left);
 		setPos(node->right);
-	}
-	else {
-		if (node->left) {
-			node->left->pos.X = node->pos.X - 4 * node->level ;
-			node->left->pos.Y = node->pos.Y + 4;
-			cout << node->left->value << "\t";
-			cout << node->left->pos.X << ":::" << node->left->pos.Y << "::level " << node->left->level << endl;
-			setPos(node->left);
-		}
-		if (node->right) {
 
-			node->right->pos.X = node->pos.X + 4 * node->level;
-			node->right->pos.Y = node->pos.Y + 4;
-			cout << node->right->value << "\t";
-			cout << node->right->pos.X << ":::" << node->right->pos.Y << "::level " << node->right->level << endl;
-			setPos(node->right);
-
-		}
 	}
+
 }
 
 void Tree::plot(Node * node)
 {
 
-	
-	
-		gotoxy(node->pos.X, node->pos.Y);
-		cout << node->value;
-		if(node->left)
+
+
+	gotoxy(node->pos.X, node->pos.Y);
+	cout << node->value;
+	if (node->left) {
+		line(node->left->pos, node->pos, 1);
 		plot(node->left);
-		if(node->right)
+	}
+	if (node->right) {
+		line(node->pos, node->right->pos, -1);
 		plot(node->right);
+	}
 
 
+}
+///dir=1 means line frm p1 to p2 is elevating
+//di=-1 means line frm p1 to p2 is decending
+void Tree::line(COORD p1, COORD p2, int dir)
+{
+	//my algo
+	int dx, dy, x, y;
+	dx = p2.X - p1.X;
+	dy = p2.Y - p1.Y;
+	x = p1.X;
+	y = p1.Y - dir;
+	float m;
+	if (dx == 0)
+		return;
+	if (dx != 0)
+		m = dy / dx;
+	while (x != p2.X - 1) {
+		dx = p2.X - x;
+		dy = p2.Y - y;
+		if (dx != 0)
+			m = dy / dx;
+		if (dx == 0)
+			continue;
+		else if (m < -1) {
+			y--;
+
+		}
+		else if (m < 0) {
+			y--;
+			x++;
+
+		}
+		else if (m < 1) {
+			x++;
+
+		}
+		else if (m > 1) {
+			y++;
+
+		}
+		else if (m == 1) {
+			x++;
+			y++;
+
+		}
+		gotoxy(x, y);
+		cout << ".";
+	}
+	//////breshnam
+	/*int dx, dy, p, x, y;
+
+	dx = (p2.X - p1.X);
+	dy = (p2.Y - p1.Y+1);
+
+	x = p1.X;
+	y = p1.Y+1;
+
+	p = 2 * dy - dx;
+
+	while (x<p2.X)
+	{
+		if (p >= 0)
+		{
+
+
+			y = y + 1;
+			x = x + 1;
+			gotoxy(x, y);
+			cout << ".";
+			p = p + 2 * dy - 2 * dx;
+			p = p + 2 * dy - 2 * dx;
+		}
+		else
+		{
+			x++;
+
+			p = p + 2 * dy;
+			gotoxy(x, y);
+			cout << ".";
+		}
+
+	}*/
+
+
+	//////DDA
+	/*int step;
+	int dx = (p2.X - p1.X);
+	int dy = (p2.Y - p1.Y+1);
+
+	if (dx >= dy)
+	step = dx;
+	else
+	step = dy;
+
+	dx = dx / step;
+	dy = dy / step;
+
+	int x = p1.X;
+	int y = p1.Y+1;
+
+	int i = 1;
+	while (i <= step)
+	{
+	gotoxy(x, y);
+	cout << ".";
+	x = x + dx;
+	y = y + dy;
+	i = i + 1;
+	}*/
 }
 
 

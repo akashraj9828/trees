@@ -20,6 +20,7 @@ public:
 	vector<Node*> inorderArray;
 	
 	int i;
+	int maxLevel;
 	Tree();
 	~Tree();
 
@@ -47,6 +48,7 @@ public:
 	void postorder(Node *node);
 	void setPos(Node *node);
 	void plot(Node *node);
+	void line(COORD p1, COORD p2,int dir);
 
 }; extern Tree binary;
 
