@@ -215,19 +215,17 @@ int menu() {
 }
 
 int window() {
-	int a;
 	Display display(400, 400, "OpenGL");
 	while (!display.isClosed()) {
 		glClearColor(0.8f, 0.9f, 0.2f, 1.9f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		display.Update();
-
-		cin >> a;
-		return 0;
 	}
+	getch();
+	return 0;
 }
 int main(int argc, char **argv) {
-	bool opengl = false;
+	bool opengl = true;
 
 	if(opengl)
 	window();
@@ -255,8 +253,9 @@ int main(int argc, char **argv) {
 		binary.preorder(binary.root);
 		cout << endl << "postorder is::" << endl;
 		binary.postorder(binary.root);
-		menu();
 		_getch();
+		menu();
+		
 	}
 
 	

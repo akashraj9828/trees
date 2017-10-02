@@ -29,7 +29,7 @@ void Tree::insert(int data) {
 	if (root == NULL) {
 		cout << "\n\n\t\t\t" << "Tree is empty ";
 		cout << "\n\t\t\t" << data << " is added as first element of tree\n\n";
-		cout << "->" << data;
+		cout << "\n\t\t\tPath:  ->" << data;
 		cout << "\n\t\t\t ";
 		Node *temp = new Node(data);
 		root = temp;
@@ -43,8 +43,8 @@ void Tree::insert(int data) {
 				// if the current node already has left child
 				// so we concern it further
 				if (ptr->left != NULL) {
-					cout << ptr->value << "->";
 					ptr = ptr->left;
+					cout << ptr->value << "->";
 					continue;
 					// if the current node has no left child
 					// so we create it with the new value
@@ -60,8 +60,8 @@ void Tree::insert(int data) {
 				// similarly for the value that should be inserted into
 				// right subtree
 				if (NULL != ptr->right) {
-					cout << ptr->value << "->";
 					ptr = ptr->right;
+					cout << ptr->value << "->";
 					continue;
 				}
 				else {
@@ -224,8 +224,7 @@ int Tree::del(int data) {
 	else if ((ptr->left != nullptr) && (ptr->right != nullptr)) {
 
 		cout << "\n\n\t\t\t" << " Entered node has two child. \n Hence finding inorder and replacing parent with its inorder sucessor.....\n";
-
-		inorderArray.erase(inorderArray.begin(), inorderArray.end());
+		inorderArray.clear();
 		cout << "\n\n" << "Inorder of the tree about node " << ptr->value << " is::\n";
 		inorder(ptr);
 		//vector<*Node> inorderArray;
