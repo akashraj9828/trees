@@ -384,7 +384,7 @@ void Tree::postorder(Node *node) {
 	if (node != NULL) {
 		postorder(node->left);
 		postorder(node->right);
-		cout << node->value << "--> ";
+		cout << node->value << "-->";
 	}
 }
 
@@ -397,7 +397,7 @@ void Tree::setPos(Node * node)
 	root->pos.Y = tempc.Y / 20;
 	if (node->left) {
 		node->left->pos.X = node->pos.X + 1 - node->gap;
-		node->left->pos.Y = node->pos.Y + 6;
+		node->left->pos.Y = node->pos.Y + 10;
 		cout << node->left->value << "\t";
 		cout << node->left->pos.X << ":::" << node->left->pos.Y << "::level " << node->left->level << endl;
 		setPos(node->left);
@@ -405,7 +405,7 @@ void Tree::setPos(Node * node)
 	if (node->right) {
 
 		node->right->pos.X = node->pos.X - 1 + node->gap;
-		node->right->pos.Y = node->pos.Y + 6;
+		node->right->pos.Y = node->pos.Y +10;
 		cout << node->right->value << "\t";
 		cout << node->right->pos.X << ":::" << node->right->pos.Y << "::level " << node->right->level << endl;
 		setPos(node->right);

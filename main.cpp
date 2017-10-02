@@ -221,7 +221,7 @@ int main(int argc, char **argv) {
 	if(opengl)
 	window();
 	
-	bool debugging = true;
+	bool debugging = false;
 	if (!debugging) {
 		menu();
 	}
