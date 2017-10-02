@@ -15,12 +15,6 @@ int menu();
 
 Tree binary;
 
-BOOL gotoxy(const WORD x, const WORD y) {
-	COORD xy;
-	xy.X = x;
-	xy.Y = y;
-	return SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), xy);
-}
 
 
 COORD getsize() {
@@ -183,6 +177,12 @@ void operation(int choice) {
 		searchNode();
 		break;
 	case 5:
+		binary.setPos(binary.root);
+		_getch();
+		binary.plot(binary.root);
+		_getch();
+		break;
+	case 6:
 		return;
 		break;
 	default:
@@ -206,7 +206,8 @@ int menu() {
 	cout << "\t 2. delete node" << endl;
 	cout << "\t 3. show nodes" << endl;
 	cout << "\t 4. search element" << endl;
-	cout << "\t 5. exit" << endl;
+	cout << "\t 5. show graphical" << endl;
+	cout << "\t 6. exit" << endl;
 	int choice;
 	cin >> choice;
 	operation(choice);
@@ -229,7 +230,7 @@ int main(int argc, char **argv) {
 	if(opengl)
 	window();
 	
-	bool debugging = false;
+	bool debugging = true;
 	if (!debugging) {
 		menu();
 	}

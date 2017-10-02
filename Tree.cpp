@@ -10,6 +10,14 @@
 using namespace std;
 
 
+BOOL gotoxy(const WORD x, const WORD y) {
+	COORD xy;
+	xy.X = x;
+	xy.Y = y;
+	return SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), xy);
+}
+
+
 Tree::Tree() {
 	root = NULL;
 	ptr = root;
@@ -35,6 +43,9 @@ void Tree::insert(int data) {
 		cout << "\n\t\t\t ";
 		Node *temp = new Node(data);
 		root = temp;
+		root->pos.X = 60;
+		root->pos.Y = 5;
+		root->level = 0;
 	}
 	else {
 		cout << "\n\t\t\t Path:";
@@ -53,6 +64,7 @@ void Tree::insert(int data) {
 				}
 				else {
 					ptr->left = new Node(data);
+					ptr->left->level = ptr->level + 1;
 					cout << "(" << ptr->left->value << ")" << "\t <<-(new node added here)";
 					cout << "\n\n\n\n\t\t\t" << data << " succesfully inserted in tree";
 					return;
@@ -68,6 +80,7 @@ void Tree::insert(int data) {
 				}
 				else {
 					ptr->right = new Node(data);
+					ptr->right->level = ptr->level + 1;
 					cout << "(" << ptr->right->value << ")" << "\t <<-(new node added here)";
 					cout << "\n\n\n\n\t\t\t" << data << " succesfully inserted in tree";
 					return;
@@ -76,6 +89,8 @@ void Tree::insert(int data) {
 		}
 	}
 }
+
+
 //return codes for search
 //0-element found on left link of parent
 //1-element found on right link of parent
@@ -168,6 +183,8 @@ int Tree::search(int data) {
 
 }
 
+
+
 //return code for delete
 //	0- sucessfully deleted
 //	1- element not found
@@ -188,7 +205,7 @@ int Tree::del(int data) {
 		cout << "\nSteps:\n";
 		if (status == 0) {
 			cout << "\n 1. Setting " << parent->value << "'s left to NULL. ";
-			parent->left = nullptr;	
+			parent->left = nullptr;
 		}
 		else if (status == 1) {
 			cout << "\n 1. Setting " << parent->value << "'s right to NULL ";
@@ -240,14 +257,14 @@ int Tree::del(int data) {
 	//case 3: node has two child
 	else if ((ptr->left != nullptr) && (ptr->right != nullptr)) {
 
-		Node* toBeDeleted =ptr;				//node to be deleted
+		Node* toBeDeleted = ptr;				//node to be deleted
 		Node* toBeDeleted_Parent = parent;		//parent of node to be deleted
 		int pos;								//pos=position of (node to be deleted) in inorderArray 
 		cout << "\n\n\t\t\t" << " Entered node has two child. \n Hence finding inorder and replacing parent with its inorder sucessor.....\n";
 		inorderArray.clear();					//clear inorder array
 		cout << "\n\n" << "Inorder of the tree about node " << toBeDeleted->value << " is::\n";
 		inorder(toBeDeleted);					//find inorder pf tree w.r.t (node to be deleted) and fill inorderArray
-		
+
 		for (int i = 0; i < inorderArray.size(); i++) {
 
 			if (inorderArray[i]->value == data) {
@@ -257,7 +274,7 @@ int Tree::del(int data) {
 				break;
 			}
 		}
-		
+
 		int succesor_value = inorderArray[pos + 1]->value;
 		Node* succesor = inorderArray[pos + 1];
 		cout << "\n\nAnd its sucessor is:::" << succesor_value;
@@ -266,11 +283,12 @@ int Tree::del(int data) {
 		//if succesor_branch=1 means its on right link of its parent
 		int sucessor_branch = search(succesor_value);		//by searching again we are resetting ptr and parent according to sucessor
 		cout << "\n\nSteps:";
-		cout << "\n\n{ Removing any link of "<<succesor_value<<" from its parent }";
+		cout << "\n\n{ Removing any link of " << succesor_value << " from its parent }";
 		if (sucessor_branch == 0) {
-			cout << "\n 1. setting "<<parent->value<<"'s left to NULL";
+			cout << "\n 1. setting " << parent->value << "'s left to NULL";
 			parent->left = nullptr;				//here parent = parent of suceesor
-		}else if (sucessor_branch == 1) {
+		}
+		else if (sucessor_branch == 1) {
 			cout << "\n 1. setting " << parent->value << "'s right to NULL";
 			parent->right = nullptr;
 		}
@@ -279,7 +297,8 @@ int Tree::del(int data) {
 			cout << "{ Therefore " << succesor_value << " will take place of root }";
 			cout << "\n 2. Setting root = " << succesor_value;
 			root = succesor;
-		}else if (status != 3) {
+		}
+		else if (status != 3) {
 			cout << "\n\n{ Setting pointers of " << toBeDeleted_Parent->value << " and " << succesor_value << " }";
 			cout << "\n{ Then deleting " << toBeDeleted->value << " }";
 			if (status == 0) {
@@ -291,7 +310,7 @@ int Tree::del(int data) {
 				toBeDeleted_Parent->right = succesor;
 			}
 		}
-		
+
 		if (toBeDeleted->left != nullptr) {
 			cout << "\n 3. Setting " << succesor->value << "'s left to " << toBeDeleted->left->value;
 			succesor->left = toBeDeleted->left;
@@ -306,11 +325,11 @@ int Tree::del(int data) {
 		else {
 			cout << "\n 3. " << succesor->value << "'s right cant be set ";
 		}
-		
+
 		cout << "\n 5. Deleting " << toBeDeleted->value;
 		delete(toBeDeleted);
 
-		
+
 		cout << "\n\n*****************************************************************************************************";
 		cout << "\n*****************************************************************************************************";
 		cout << "\n*****************************************************************************************************\n\n";
@@ -329,19 +348,76 @@ void Tree::inorder(Node *node) {
 	}
 }
 
-void Tree::preorder(Node *root) {
+void Tree::preorder(Node *node) {
 
-	if (root != NULL) {
-		cout << root->value << "-->";
-		preorder(root->left);
-		preorder(root->right);
+	if (node != NULL) {
+		cout << node->value << "-->";
+		preorder(node->left);
+		preorder(node->right);
 	}
 }
 
-void Tree::postorder(Node *root) {
-	if (root != NULL) {
-		postorder(root->left);
-		postorder(root->right);
-		cout << root->value << "--> ";
+void Tree::postorder(Node *node) {
+	if (node != NULL) {
+		postorder(node->left);
+		postorder(node->right);
+		cout << node->value << "--> ";
 	}
 }
+
+BOOL once = false;
+
+void Tree::setPos(Node * node)
+{
+	if (!once) {
+		once = true;
+		node->left->pos.X = node->pos.X - 15;
+		node->right->pos.X = node->pos.X + 15;
+		node->left->pos.Y = node->pos.Y + 4;
+		node->right->pos.Y = node->pos.Y + 4;
+		cout << node->left->value << "\t";
+		cout << node->left->pos.X << ":::" << node->left->pos.Y << "::level " << node->left->level << endl;
+		cout << node->right->value << "\t";
+		cout << node->right->pos.X << ":::" << node->right->pos.Y << "::level " << node->right->level << endl;
+		setPos(node->left);
+		setPos(node->right);
+	}
+	else {
+		if (node->left) {
+			node->left->pos.X = node->pos.X - 4 * node->level ;
+			node->left->pos.Y = node->pos.Y + 4;
+			cout << node->left->value << "\t";
+			cout << node->left->pos.X << ":::" << node->left->pos.Y << "::level " << node->left->level << endl;
+			setPos(node->left);
+		}
+		if (node->right) {
+
+			node->right->pos.X = node->pos.X + 4 * node->level;
+			node->right->pos.Y = node->pos.Y + 4;
+			cout << node->right->value << "\t";
+			cout << node->right->pos.X << ":::" << node->right->pos.Y << "::level " << node->right->level << endl;
+			setPos(node->right);
+
+		}
+	}
+}
+
+void Tree::plot(Node * node)
+{
+
+	
+	
+		gotoxy(node->pos.X, node->pos.Y);
+		cout << node->value;
+		if(node->left)
+		plot(node->left);
+		if(node->right)
+		plot(node->right);
+
+
+}
+
+
+
+
+

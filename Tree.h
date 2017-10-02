@@ -18,6 +18,7 @@ public:
 	Node* Lchild;	//left child node of ptr
 	Node* Rchild;	//right child node of ptr;
 	vector<Node*> inorderArray;
+	
 	int i;
 	Tree();
 	~Tree();
@@ -42,8 +43,10 @@ public:
 
 
 	void inorder(Node *node);
-	void preorder(Node *root);
-	void postorder(Node *root);
+	void preorder(Node *node);
+	void postorder(Node *node);
+	void setPos(Node *node);
+	void plot(Node *node);
 
-};
+}; extern Tree binary;
 
