@@ -145,13 +145,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="display.cpp" />
+    <ClCompile Include="Display.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="display.h" />
+    <ClInclude Include="Display.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="Tree.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Debug\tree.exe" />

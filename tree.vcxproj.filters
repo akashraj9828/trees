@@ -21,7 +21,10 @@
     <ClCompile Include="Node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="display.cpp">
+    <ClCompile Include="Display.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +32,10 @@
     <ClInclude Include="Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="display.h">
+    <ClInclude Include="Display.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
