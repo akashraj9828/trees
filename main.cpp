@@ -225,7 +225,7 @@ int window() {
 	return 0;
 }
 int main(int argc, char **argv) {
-	bool opengl = true;
+	bool opengl = false;
 
 	if(opengl)
 	window();

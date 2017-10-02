@@ -223,12 +223,14 @@ int Tree::del(int data) {
 	//case 3: node has two child
 	else if ((ptr->left != nullptr) && (ptr->right != nullptr)) {
 
+		Node* toBeDeleted =ptr;					//node to be deleted
+		Node* toBeDeleted_Parent = parent;		//parent of node to be deleted
+		int pos;								//pos=position of (node to be deleted) in inorderArray 
 		cout << "\n\n\t\t\t" << " Entered node has two child. \n Hence finding inorder and replacing parent with its inorder sucessor.....\n";
-		inorderArray.clear();
-		cout << "\n\n" << "Inorder of the tree about node " << ptr->value << " is::\n";
-		inorder(ptr);
-		//vector<*Node> inorderArray;
-		int pos;
+		inorderArray.clear();					//clear inorder array
+		cout << "\n\n" << "Inorder of the tree about node " << toBeDeleted->value << " is::\n";
+		inorder(toBeDeleted);					//find inorder pf tree w.r.t (node to be deleted) and fill inorderArray
+		
 		for (int i = 0; i < inorderArray.size(); i++) {
 
 			if (inorderArray[i]->value == data) {
@@ -238,16 +240,55 @@ int Tree::del(int data) {
 				break;
 			}
 		}
+		
 		int succesor_value = inorderArray[pos + 1]->value;
+		Node* succesor = inorderArray[pos + 1];
 		cout << "\n\nAnd its sucessor is:::" << succesor_value;
-		cout << "\n\n\t\t Therefore copying the value of succesor " << succesor_value << " in " << ptr->value;
-		cout << "\n\t\t And deleting the sucessor " << succesor_value << "\n";
+
+		//if succesor_branch=0 means its on left link of its parent
+		//if succesor_branch=1 means its on right link of its parent
+		int sucessor_branch = search(succesor_value);		//by searching again we are resetting ptr and parent according to sucessor
+		
+		cout << "\n\n{ Removing any link of "<<succesor_value<<" from its parent }";
+		if (sucessor_branch == 0) {
+			cout << "\n 1. setting "<<parent->value<<"'s left to NULL";
+			parent->left = nullptr;				//here parent = parent of suceesor
+		}else if (sucessor_branch == 1) {
+			cout << "\n 1. setting " << parent->value << "'s right to NULL";
+			parent->right = nullptr;
+		}
+
+		cout << "\n\n{ Setting pointers of " << toBeDeleted_Parent->value << " and " << succesor_value<<" }";
+		cout << "\n{ Then deleting " << toBeDeleted->value<<" }";
+		if (status == 0) {
+			cout << "\n 2. Setting " << toBeDeleted_Parent->value << "'s left to "<< succesor->value;
+			toBeDeleted_Parent->left = succesor;
+		}
+		else if (status == 1) {
+			cout << "\n 2. Setting " << toBeDeleted_Parent->value << "'s right to " << succesor->value;
+			toBeDeleted_Parent->right = succesor;
+		}
+		if (toBeDeleted->left != nullptr) {
+			cout << "\n 3. Setting " << succesor->value << "'s left to " << toBeDeleted->left->value;
+			succesor->left = toBeDeleted->left;
+		}
+		else {
+			cout << "\n 3. " << succesor->value << "'s left cant be set ";
+		}
+		if (toBeDeleted->right != nullptr) {
+			cout << "\n 4. Setting " << succesor->value << "'s right to " << toBeDeleted->right->value;
+			succesor->right = toBeDeleted->right;
+		}
+		else {
+			cout << "\n 3. " << succesor->value << "'s right cant be set ";
+		}
+		cout << "\n 5. Deleting " << toBeDeleted->value;
+		delete(toBeDeleted);
+
+		
 		cout << "\n\n*****************************************************************************************************";
 		cout << "\n*****************************************************************************************************";
 		cout << "\n*****************************************************************************************************\n\n";
-		del(inorderArray[pos + 1]->value);
-		inorderArray[pos]->value = succesor_value;
-
 
 	}
 	return 1;
