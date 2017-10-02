@@ -159,10 +159,18 @@
     <ClInclude Include="Tree.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Debug\glew32.dll" />
+    <None Include="Debug\glewinfo.exe" />
+    <None Include="Debug\SDL2.dll" />
     <None Include="Debug\tree.exe" />
+    <None Include="Debug\visualinfo.exe" />
+    <None Include="Release\glew32.dll" />
+    <None Include="Release\glewinfo.exe" />
+    <None Include="Release\SDL2.dll" />
     <None Include="Release\tree.exe">
       <FileType>Document</FileType>
     </None>
+    <None Include="Release\visualinfo.exe" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
