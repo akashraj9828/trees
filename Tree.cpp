@@ -31,7 +31,7 @@ COORD getsize() {
 Tree::Tree() {
 	root = NULL;
 	ptr = root;
-	maxLevel = 0;
+	depth = 0;
 
 }
 Tree::~Tree() {
@@ -54,11 +54,8 @@ void Tree::insert(int data) {
 		cout << "\n\t\t\t ";
 		Node *temp = new Node(data);
 		root = temp;
-		COORD tempc = getsize();
-		root->pos.X = tempc.X / 2;
-		root->pos.Y = tempc.Y / 20;
 		root->level = 0;
-		root->gap = 30;
+		root->gap = 0;
 	}
 	else {
 		cout << "\n\t\t\t Path:";
@@ -77,14 +74,8 @@ void Tree::insert(int data) {
 				}
 				else {
 					ptr->left = new Node(data);
-					ptr->left->level = ptr->level + 1;
-					ptr->left->gap = (ptr->gap / 2);
 					cout << "(" << ptr->left->value << ")" << "\t <<-(new node added here)";
 					cout << "\n\n\n\n\t\t\t" << data << " succesfully inserted in tree";
-					if (ptr->left->level > maxLevel) {
-						maxLevel = ptr->left->level;
-						root->gap = maxLevel * 10;
-					}
 					return;
 				}
 			}
@@ -98,14 +89,9 @@ void Tree::insert(int data) {
 				}
 				else {
 					ptr->right = new Node(data);
-					ptr->right->level = ptr->level + 1;
-					ptr->right->gap = (ptr->gap / 2);
 					cout << "(" << ptr->right->value << ")" << "\t <<-(new node added here)";
 					cout << "\n\n\n\n\t\t\t" << data << " succesfully inserted in tree";
-					if (ptr->right->level > maxLevel) {
-						maxLevel = ptr->right->level;
-						root->gap = maxLevel * 10;
-					}
+					
 					return;
 				}
 			}
@@ -393,11 +379,20 @@ void Tree::postorder(Node *node) {
 void Tree::setPos(Node * node)
 {
 	COORD tempc = getsize();
-	root->pos.X = tempc.X / 2;
-	root->pos.Y = tempc.Y / 20;
+	if (node->pos.X == NULL && node->pos.Y == NULL) {
+		node->pos.X = tempc.X / 2;
+		node->pos.Y = tempc.Y / 20;
+	}
+	if (node->gap == 0) {
+		node->gap = tempc.X / 5;
+	}
 	if (node->left) {
 		node->left->pos.X = node->pos.X + 1 - node->gap;
 		node->left->pos.Y = node->pos.Y + 10;
+		node->left->gap = node->gap / 2;
+		node->left->level = node->level + 1;
+		if (node->left->level > depth)
+			depth = node->left->level;
 		cout << node->left->value << "\t";
 		cout << node->left->pos.X << ":::" << node->left->pos.Y << "::level " << node->left->level << endl;
 		setPos(node->left);
@@ -406,30 +401,56 @@ void Tree::setPos(Node * node)
 
 		node->right->pos.X = node->pos.X - 1 + node->gap;
 		node->right->pos.Y = node->pos.Y +10;
+		node->right->gap = node->gap / 2;
+		node->right->level = node->level + 1;
+		if (node->right->level > depth)
+			depth = node->right->level;
 		cout << node->right->value << "\t";
 		cout << node->right->pos.X << ":::" << node->right->pos.Y << "::level " << node->right->level << endl;
 		setPos(node->right);
 
 	}
 
+
+
 }
 
+
+
+int Lsubtree = 0;
+int Rsubtree = 0;
 void Tree::plot(Node * node)
 {
-
-
-
+	const int l=node->level;
+	cout << "~~ " << l << " ~~";
 	gotoxy(node->pos.X, node->pos.Y);
 	cout << node->value;
-	if (node->left) {
+	if (node->left && Lsubtree<=8) {
+		Lsubtree++;
 		line(node->left->pos, node->pos, 1);
 		plot(node->left);
 	}
-	if (node->right) {
+	if (node->right && Rsubtree<=8) {
+		Rsubtree++;
 		line(node->pos, node->right->pos, -1);
 		plot(node->right);
 	}
 
+
+}
+void Tree::clearPos(Node * node)
+{
+	Lsubtree = 0;
+	Rsubtree = 0;
+	node->pos.X = NULL;
+	node->pos.Y = NULL;
+	node->gap = 0;
+	if (node->left) {
+		clearPos(node->left);
+	}
+	if (node->right) {
+		clearPos(node->right);
+	}
 
 }
 ///dir=1 means line frm p1 to p2 is elevating

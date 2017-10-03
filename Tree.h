@@ -19,8 +19,7 @@ public:
 	Node* Rchild;	//right child node of ptr;
 	vector<Node*> inorderArray;
 	
-	int i;
-	int maxLevel;
+	int depth;
 	Tree();
 	~Tree();
 
@@ -46,7 +45,8 @@ public:
 	void inorder(Node *node);
 	void preorder(Node *node);
 	void postorder(Node *node);
-	void setPos(Node *node);
+	void setPos(Node *node);		///sets (x,y) coordinates for each node
+	void clearPos(Node *node);		///resets/clears (x,y) coordinates of each node
 	void plot(Node *node);
 	void line(COORD p1, COORD p2,int dir);
 

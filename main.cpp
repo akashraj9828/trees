@@ -84,7 +84,7 @@ void deleteNode() {
 	}
 
 }
-void printNode() {
+void traverse() {
 	system("cls");
 	cout << "IN WHICH FORM DO YOU WISH TO SEE OUTPUT:";
 	cout << "\n\t 1. PREORDER";
@@ -103,21 +103,21 @@ void printNode() {
 		binary.preorder(binary.root);
 		cout << "NULL";
 		_getch();
-		printNode();
+		traverse();
 		break;
 	case 2:
 		cout << endl << endl << "INORDER TRAVERSAL:::" << endl;
 		binary.inorder(binary.root);
 		cout << "NULL";
 		_getch();
-		printNode();
+		traverse();
 		break;
 	case 3:
 		cout << endl << endl <<"POSTORDER TRAVERSAL::" << endl;
 		binary.postorder(binary.root);
 		cout << "NULL";
 		_getch();
-		printNode();
+		traverse();
 		break;
 	case 4:
 		cout << endl << endl << "PREORDER TRAVERSAL::" << endl;
@@ -130,9 +130,69 @@ void printNode() {
 		binary.postorder(binary.root);
 		cout << "NULL";
 		_getch();
-		printNode();
+		traverse();
 		break;
 	case 5:
+		menu();
+		break;
+	default:
+		cout << "\n\n\n\n\t\t\t\t\t\t\t\t *_* *_* *_* *_* *_*";
+		cout << "\n\t\t\t\t\t\t\t\t Oops WRONG CHOICE!!";
+		cout << "\n\t\t\t\t\t\t\t\t      Try again!";
+		cout << "\n\t\t\t\t\t\t\t\t *_* *_* *_* *_* *_*";
+		_getch();
+		traverse();
+		break;
+		
+
+
+	}
+
+}
+void printNode() {
+	system("cls");
+	cout << "FORM WHICH NODE DO YOU WISH TO SEE TREE:";
+	cout << "\n\t 1. ROOT";
+	cout << "\n\t 2. CUSTOM ENTRY";
+	cout << "\n\t 3. RETURN";
+	int choice;
+	cin >> choice;
+	system("cls");
+	cout << "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TREE VISUALIZATION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+	cout << "\n\n\n\n";
+	switch (choice) {
+	case 1:
+		binary.setPos(binary.root);
+		_getch();
+		system("cls");
+		cout << "\n\n\t\t SHOWING 3 LEVEL AT A TIME:-";
+		binary.plot(binary.root);
+		_getch();
+		binary.clearPos(binary.root);
+		printNode();
+		break;
+	case 2:
+		cout << "Enter the node from where you want to view tree:";
+		int data;
+		cin >> data;
+		int status;
+		status = binary.search(data);
+		if (status == 2) {   //status=2 means element not found
+
+		}
+		else {
+			binary.setPos(binary.ptr);
+			_getch();
+			system("cls");
+			cout << "\n\n\t\t SHOWING 3 LEVEL AT A TIME:-";
+			binary.plot(binary.ptr);
+		}
+		_getch();
+		binary.clearPos(binary.root);
+		printNode();
+		
+		break;
+	case 3:
 		menu();
 		break;
 	default:
@@ -144,10 +204,12 @@ void printNode() {
 		printNode();
 		break;
 		
-
-
+		
 	}
-
+	binary.setPos(binary.root->left);
+	_getch();
+	system("cls");
+	binary.plot(binary.root->left);
 }
 void operation(int choice) {
 	switch (choice) {
@@ -161,16 +223,13 @@ void operation(int choice) {
 		//menu();
 		break;
 	case 3:
-		printNode();
+		traverse();
 		break;
 	case 4:
 		searchNode();
 		break;
 	case 5:
-		binary.setPos(binary.root);
-		_getch();
-		system("cls");
-		binary.plot(binary.root);
+		printNode();
 		_getch();
 		menu();
 		break;
@@ -221,7 +280,7 @@ int main(int argc, char **argv) {
 	if(opengl)
 	window();
 	
-	bool debugging = false;
+	bool debugging = true;
 	if (!debugging) {
 		menu();
 	}
