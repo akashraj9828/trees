@@ -9,7 +9,7 @@
 
 using namespace std;
 
-
+//moves cursor to (x,y) 
 BOOL gotoxy(const WORD x, const WORD y) {
 	COORD xy;
 	xy.X = x;
@@ -17,6 +17,7 @@ BOOL gotoxy(const WORD x, const WORD y) {
 	return SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), xy);
 }
 
+//returns size of console window
 COORD getsize() {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 
@@ -421,17 +422,15 @@ int Lsubtree = 0;
 int Rsubtree = 0;
 void Tree::plot(Node * node)
 {
-	const int l=node->level;
-	cout << "~~ " << l << " ~~";
 	gotoxy(node->pos.X, node->pos.Y);
 	cout << node->value;
 	if (node->left && Lsubtree<=8) {
-		Lsubtree++;
+		//Lsubtree++;
 		line(node->left->pos, node->pos, 1);
 		plot(node->left);
 	}
 	if (node->right && Rsubtree<=8) {
-		Rsubtree++;
+		//Rsubtree++;
 		line(node->pos, node->right->pos, -1);
 		plot(node->right);
 	}
