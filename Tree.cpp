@@ -9,6 +9,7 @@
 
 using namespace std;
 
+
 //moves cursor to (x,y) 
 BOOL gotoxy(const WORD x, const WORD y) {
 	COORD xy;
@@ -29,10 +30,12 @@ COORD getsize() {
 	return xy;
 }
 
+
 Tree::Tree() {
 	root = NULL;
 	ptr = root;
 	depth = 0;
+	total_node = 0;
 
 }
 Tree::~Tree() {
@@ -41,7 +44,12 @@ Tree::~Tree() {
 	_getch();
 }
 
-void Tree::insert(int data) {
+//return code for insert:
+//0 :element added as left child
+//1 :element added as right child
+//2 :element added as root
+//3 :duplicate found (no insertion)
+int Tree::insert(int data) {
 
 
 	cout << "\n\n\n\t\t" << "~~~~~~~~~~~~~~ADDITION~~~~~~~~~~~~~~" << endl;
@@ -55,17 +63,25 @@ void Tree::insert(int data) {
 		cout << "\n\t\t\t ";
 		Node *temp = new Node(data);
 		root = temp;
+		total_node++;
 		root->pos.X = NULL;
 		root->pos.Y = NULL;
 		root->level = 0;
 		root->gap = 0;
+		return 2;
 	}
 	else {
 		cout << "\n\t\t\t Path:";
 		cout << root->value << "->";
 		ptr = root;
 		while (true) {
-			if (data < ptr->value) {
+			if (!duplicate && data == ptr->value) {
+				cout << "\n\n\n\n\t\t\t ***************************";
+				cout << "\n\t\t\t **Duplicate value entered** ";
+				cout << "\n\t\t\t ***************************";
+				cout << "\n\n\n\n\t\t\t" << data << " already present in tree ";
+				return 3;
+			}else if (data < ptr->value) {
 				// if the current node already has left child
 				// so we concern it further
 				if (ptr->left != NULL) {
@@ -77,12 +93,14 @@ void Tree::insert(int data) {
 				}
 				else {
 					ptr->left = new Node(data);
+					total_node++;
 					cout << "(" << ptr->left->value << ")" << "\t <<-(new node added here)";
 					cout << "\n\n\n\n\t\t\t" << data << " succesfully inserted in tree";
-					return;
+					
+					return 0;
 				}
 			}
-			else {
+			else if(data>ptr->value){
 				// similarly for the value that should be inserted into
 				// right subtree
 				if (NULL != ptr->right) {
@@ -92,10 +110,10 @@ void Tree::insert(int data) {
 				}
 				else {
 					ptr->right = new Node(data);
+					total_node++;
 					cout << "(" << ptr->right->value << ")" << "\t <<-(new node added here)";
 					cout << "\n\n\n\n\t\t\t" << data << " succesfully inserted in tree";
-					
-					return;
+					return 1;
 				}
 			}
 		}
@@ -225,6 +243,7 @@ int Tree::del(int data) {
 		}
 		cout << "\n 2. Deleting " << ptr->value;
 		delete(ptr);
+		total_node--;
 		cout << "\n\n*****************************************************************************************************";
 		cout << "\n*****************************************************************************************************";
 		cout << "\n*****************************************************************************************************\n\n";
@@ -261,6 +280,7 @@ int Tree::del(int data) {
 		}
 		cout << "\n 2. Deleting " << ptr->value;
 		delete ptr;
+		total_node--;
 		cout << "\n\n*****************************************************************************************************";
 		cout << "\n*****************************************************************************************************";
 		cout << "\n*****************************************************************************************************\n\n";
@@ -340,6 +360,7 @@ int Tree::del(int data) {
 
 		cout << "\n 5. Deleting " << toBeDeleted->value;
 		delete(toBeDeleted);
+		total_node--;
 
 
 		cout << "\n\n*****************************************************************************************************";
@@ -385,6 +406,9 @@ void Tree::setPos(Node * node)
 	cout << endl<<step<<". ";
 	
 	COORD tempc = getsize();
+	if (node == NULL) {
+		return;
+	}
 	if (node->pos.X == NULL && node->pos.Y == NULL) {
 		node->pos.X = tempc.X / 2;
 		node->pos.Y = tempc.Y / 20;
@@ -394,7 +418,7 @@ void Tree::setPos(Node * node)
 	}
 	if (node->left) {
 		node->left->pos.X = node->pos.X + 1 - node->gap;
-		node->left->pos.Y = node->pos.Y + 10;
+		node->left->pos.Y = node->pos.Y + 6;
 		node->left->gap = node->gap / 2;
 		node->left->level = node->level + 1;
 		if (node->left->level > depth)
@@ -406,7 +430,7 @@ void Tree::setPos(Node * node)
 	if (node->right) {
 
 		node->right->pos.X = node->pos.X - 1 + node->gap;
-		node->right->pos.Y = node->pos.Y +10;
+		node->right->pos.Y = node->pos.Y +6;
 		node->right->gap = node->gap / 2;
 		node->right->level = node->level + 1;
 		if (node->right->level > depth)
@@ -427,6 +451,9 @@ int lvl=NULL;
 
 void Tree::plot(Node * node)
 {
+	if (node == NULL)
+		return;
+
 	gotoxy(node->pos.X, node->pos.Y);
 	cout << node->value;
 	if (lvl == NULL) {
@@ -471,6 +498,10 @@ void Tree::plot(Node * node)
 }
 void Tree::clearPos(Node * node)
 {	
+	if (node == NULL)
+		return;
+
+
 	step = 0;
 	lvl = NULL;
 	node->pos.X = NULL;
@@ -593,6 +624,33 @@ void Tree::line(COORD p1, COORD p2, int dir)
 	i = i + 1;
 	}*/
 }
+
+void Tree::delete_all(Node * node)
+{
+
+	if (node == root) {
+		root->pos.X = NULL;
+		root->pos.Y = NULL;
+		root->gap = 0;
+		ptr = root;
+		depth = 0;
+		total_node = 0;
+		root = NULL;
+		
+	}
+		
+
+
+	
+	
+	if (node->left) {
+		delete_all(node->left);
+	}
+	if (node->right) {
+		delete_all(node->right);
+	}
+}
+
 
 
 

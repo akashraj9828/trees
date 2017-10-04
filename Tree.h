@@ -19,11 +19,19 @@ public:
 	Node* Rchild;	//right child node of ptr;
 	vector<Node*> inorderArray;		//a vector that contains inorder traversal of tree (used when deleting node with 2 child)
 	
-	int depth;			//depth of tree for only root depth ==0
+	int depth;	//depth of tree for only root depth ==0
+	int total_node;
+	BOOL duplicate = false;
 	Tree();
 	~Tree();
 
-	void insert(int data);			//inserts node with value=data to tree
+
+	//return code for insert:
+	//0 :element added as left child
+	//1 :element added as right child
+	//2 :element added as root
+	//3 :duplicate found
+	int insert(int data);			//inserts node with value=data to tree
 
 
 	//return codes for search
@@ -49,6 +57,7 @@ public:
 	void clearPos(Node *node);		///resets/clears (x,y) coordinates of each node
 	void plot(Node *node);			//plots all the nodes in console based on their coordinate(x,y)
 	void line(COORD p1, COORD p2,int dir);		//draws dotted line from p1 to p2
+	void delete_all(Node *node);
 
 }; extern Tree binary;
 
