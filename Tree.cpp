@@ -55,6 +55,8 @@ void Tree::insert(int data) {
 		cout << "\n\t\t\t ";
 		Node *temp = new Node(data);
 		root = temp;
+		root->pos.X = NULL;
+		root->pos.Y = NULL;
 		root->level = 0;
 		root->gap = 0;
 	}
@@ -376,9 +378,12 @@ void Tree::postorder(Node *node) {
 }
 
 
-
+int step = 0;
 void Tree::setPos(Node * node)
 {
+	step++;
+	cout << endl<<step<<". ";
+	
 	COORD tempc = getsize();
 	if (node->pos.X == NULL && node->pos.Y == NULL) {
 		node->pos.X = tempc.X / 2;
@@ -394,8 +399,8 @@ void Tree::setPos(Node * node)
 		node->left->level = node->level + 1;
 		if (node->left->level > depth)
 			depth = node->left->level;
-		cout << node->left->value << "\t";
-		cout << node->left->pos.X << ":::" << node->left->pos.Y << "::level " << node->left->level << endl;
+		cout <<"node: "<<node->left->value << "\t";
+		cout <<"coordinate: ("<< node->left->pos.X << " , " << node->left->pos.Y << ") \t\t level: " << node->left->level ;
 		setPos(node->left);
 	}
 	if (node->right) {
@@ -406,8 +411,8 @@ void Tree::setPos(Node * node)
 		node->right->level = node->level + 1;
 		if (node->right->level > depth)
 			depth = node->right->level;
-		cout << node->right->value << "\t";
-		cout << node->right->pos.X << ":::" << node->right->pos.Y << "::level " << node->right->level << endl;
+		cout << "node: " << node->right->value << "\t";
+		cout << "coordinate: (" << node->right->pos.X << " , " << node->right->pos.Y << ") \t\t level: " << node->right->level ;
 		setPos(node->right);
 
 	}
@@ -418,29 +423,56 @@ void Tree::setPos(Node * node)
 
 
 
-int Lsubtree = 0;
-int Rsubtree = 0;
+int lvl=NULL;
+
 void Tree::plot(Node * node)
 {
 	gotoxy(node->pos.X, node->pos.Y);
 	cout << node->value;
-	if (node->left && Lsubtree<=8) {
-		//Lsubtree++;
+	if (lvl == NULL) {
+		lvl = node->level;
+	}
+	if (node->left && (node->left->level)<=3+lvl) {
 		line(node->left->pos, node->pos, 1);
 		plot(node->left);
 	}
-	if (node->right && Rsubtree<=8) {
-		//Rsubtree++;
+	else if (node->left) {
+		gotoxy(node->pos.X-1, node->pos.Y + 1);
+		cout << "|";
+		gotoxy(node->pos.X-1, node->pos.Y + 2);
+		cout << "|";
+		gotoxy(node->pos.X-1, node->pos.Y + 3);
+		cout << "V";
+	}
+	else {
+		gotoxy(node->pos.X-1, node->pos.Y + 1);
+		cout << "x";
+	}
+
+
+	if (node->right && (node->right->level) <= 3+lvl) {
 		line(node->pos, node->right->pos, -1);
 		plot(node->right);
+	}
+	else if (node->right) {
+		gotoxy(node->pos.X+1, node->pos.Y + 1);
+		cout << "|";
+		gotoxy(node->pos.X+1, node->pos.Y + 2);
+		cout << "|";
+		gotoxy(node->pos.X+1, node->pos.Y + 3);
+		cout << "V";
+	}
+	else {
+		gotoxy(node->pos.X+1, node->pos.Y + 1);
+		cout << "x";
 	}
 
 
 }
 void Tree::clearPos(Node * node)
-{
-	Lsubtree = 0;
-	Rsubtree = 0;
+{	
+	step = 0;
+	lvl = NULL;
 	node->pos.X = NULL;
 	node->pos.Y = NULL;
 	node->gap = 0;

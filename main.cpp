@@ -162,6 +162,8 @@ void printNode() {
 	cout << "\n\n\n\n";
 	switch (choice) {
 	case 1:
+
+		cout << "\n\n\n\t\t\t~~~~~~~~~~~~~~ SETTING COORDINATES ~~~~~~~~~~~~~~";
 		binary.setPos(binary.root);
 		_getch();
 		system("cls");
@@ -286,7 +288,7 @@ int main(int argc, char **argv) {
 	}
 	else {
 		vector<int> values;
-		values= { 25,15,10,4,12,22,18,24,50,70,66,90,35,31,44 }; //example 1 image included in source
+		values = { 25,15,10,4,12,22,18,24,50,70,66,90,35,31,44 };//, 9, 5, 21, 19, 6, 59, 4, 29, 28, 25, 26, 14	}; //example 1 image included in source
 		//values = { 43,15,8,30,20,35,60,50,82,70 };  //example 2  image included in source
 
 		for (int i = 0; i < values.size(); i++) {
