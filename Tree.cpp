@@ -225,6 +225,12 @@ int Tree::del(int data) {
 	if (status == 2) {
 		return 1;
 	}
+	//case 0 element is root
+	else if (status == 3 && total_node==1) {
+		
+		root = NULL;
+		return 0;
+	}
 	else {
 		cout << "\n\n\n\t\t" << "~~~~~~~~~~~~~~DELETION~~~~~~~~~~~~~~" << endl;
 		cout << "\n\n\t\t\t" << "deleting " << data << " from tree" << endl;
