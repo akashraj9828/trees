@@ -472,7 +472,7 @@ void Tree::plot(Node * node)
 	gotoxy(node->pos.X, node->pos.Y);
 	cout << node->value;
 	gotoxy(1, node->pos.Y);
-	cout << "level->" << node->level;
+	cout << "lvl->" << node->level;
 
 	if (lvl == NULL) {
 		lvl = node->level;

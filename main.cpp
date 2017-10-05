@@ -123,13 +123,12 @@ void deleteNode() {
 	
 	binary.setPos(binary.root);
 	system("cls");
-	cout << "\n NODE DELETION MENU ::\n\n";
-	cout << "\n\n\t FRAME OF REFFERENCE : ROOT(" << binary.root->value << ")";
-	cout << "\n\n\t SHOWING 4 LEVEL AT A TIME:-";
+	cout << "\n\t\t\t NODE DELETION MENU ::";
+	cout << "\n\t\t\t FRAME OF REFFERENCE : ROOT(" << binary.root->value << ")";
 	binary.plot(binary.root);
 	binary.clearPos(binary.root);
 
-	gotoxy1(2,xy.Y-2);
+	gotoxy1(2,xy.Y);
 	cout << "\n ENTER THE NODE TO BE DELETED:\t";
 	int data;
 	cin >> data;
@@ -142,11 +141,11 @@ void deleteNode() {
 		system("cls");
 		cout << "\t\t After deletion of " << data;
 		cout << "\n\n\t FRAME OF REFFERENCE : ROOT(" << binary.root->value << ")";
-		cout << "\n\n\t SHOWING 4 LEVEL AT A TIME:-";
+
 		binary.plot(binary.root);
 		binary.clearPos(binary.root);
 
-		gotoxy1( 2, xy.Y - 2);
+		gotoxy1( 2, xy.Y);
 		 cout<< "\t\t" << data << " succesfully deleted from tree";
 		cout << "\n\n\t\t do you wish to delete another node?(y/n)\n\n";
 
@@ -157,10 +156,9 @@ void deleteNode() {
 		system("cls");
 		cout << "\t\t After deletion of " << data;
 		cout << "\n\n\t FRAME OF REFFERENCE : ROOT(" << binary.root->value << ")";
-		cout << "\n\n\t SHOWING 4 LEVEL AT A TIME:-";
 		binary.plot(binary.root);
 		binary.clearPos(binary.root);
-		gotoxy1( 2, xy.Y - 2);
+		gotoxy1( 2, xy.Y );
 		cout << "\t\t do you wish to delete another node?(y/n)\n\n";
 	}
 	char c;
