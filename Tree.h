@@ -53,8 +53,8 @@ public:
 	void inorder(Node *node);		//prints inorder traversal
 	void preorder(Node *node);		//prints preorder traversal
 	void postorder(Node *node);		//prints post order of tree 
-	void setPos(Node *node);		///sets (x,y) coordinates for each node
-	void clearPos(Node *node);		///resets/clears (x,y) coordinates of each node
+	void setPos(Node *node);		//sets (x,y) coordinates for each node
+	void clearPos(Node *node);		//resets/clears (x,y) coordinates of each node
 	void plot(Node *node);			//plots all the nodes in console based on their coordinate(x,y)
 	void line(COORD p1, COORD p2,int dir);		//draws dotted line from p1 to p2
 	void delete_all(Node *node);

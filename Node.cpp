@@ -8,6 +8,10 @@ Node::Node(int data)
 	value = data;
 	left = NULL;
 	right = NULL;
+	pos.X = NULL;
+	pos.Y = NULL;
+	level = NULL;
+	gap = 0;
 	
 }
 
@@ -15,7 +19,7 @@ Node::~Node()
 {	
 	std::cout << "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<std::endl;
 	std::cout << "\t~~~~~~~~~~~~~~~node:: " << value << " ::destructed ~~~~~~~~~~~~~~~" << std::endl;
-	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" << std::endl;
 }
 
 

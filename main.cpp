@@ -225,10 +225,11 @@ void traverse() {
 		menu();
 		break;
 	default:
-		cout << "\n\n\n\n\t\t\t\t\t\t\t\t *_* *_* *_* *_* *_*";
-		cout << "\n\t\t\t\t\t\t\t\t Oops WRONG CHOICE!!";
-		cout << "\n\t\t\t\t\t\t\t\t      Try again!";
-		cout << "\n\t\t\t\t\t\t\t\t *_* *_* *_* *_* *_*";
+		cout << "\n\n";
+		cout << "\n\t\t\t\t\t\t *************************";
+		cout << "\n\t\t\t\t\t\t ** Oops WRONG CHOICE!! **";
+		cout << "\n\t\t\t\t\t\t **      Try again!     **";
+		cout << "\n\t\t\t\t\t\t *************************";
 		_getch();
 		traverse();
 		break;
@@ -289,10 +290,11 @@ void printNode() {
 		menu();
 		break;
 	default:
-		cout << "\n\n\n\n\t\t\t\t\t\t\t\t *_* *_* *_* *_* *_*";
-		cout << "\n\t\t\t\t\t\t\t\t Oops WRONG CHOICE!!";
-		cout << "\n\t\t\t\t\t\t\t\t      Try again!";
-		cout << "\n\t\t\t\t\t\t\t\t *_* *_* *_* *_* *_*";
+		cout << "\n\n";
+		cout << "\n\t\t\t\t\t\t *************************";
+		cout << "\n\t\t\t\t\t\t ** Oops WRONG CHOICE!! **";
+		cout << "\n\t\t\t\t\t\t **      Try again!     **";
+		cout << "\n\t\t\t\t\t\t *************************";
 		_getch();
 		printNode();
 		break;
@@ -350,16 +352,22 @@ void operation(int choice) {
 		break;
 	case 7:
 		binary.delete_all(binary.root);
+		cout << "\n\n\n\t\t\t ^^^^^^^^^^^^^ All nodes of tree deleted ^^^^^^^^^^^^^";
+		getch();
 		menu();
 		break;
 	case 8:
+		binary.delete_all(binary.root);
+		cout << "\n\n\n\t\t\t ^^^^^^^^^^^^^ All nodes of tree deleted ^^^^^^^^^^^^^";
+		_getch();
 		return;
 		break;
 	default:
-		cout << "\n\n\n\n\t\t\t\t\t\t *_* *_* *_* *_* *_*";
-		cout << "\n\t\t\t\t\t\t Oops WRONG CHOICE!!";
-		cout << "\n\t\t\t\t\t\t   Try again!";
-		cout << "\n\t\t\t\t\t\t *_* *_* *_* *_* *_*";
+		cout << "\n\n";
+		cout << "\n\t\t\t\t\t\t *************************";
+		cout << "\n\t\t\t\t\t\t ** Oops WRONG CHOICE!! **";
+		cout << "\n\t\t\t\t\t\t **      Try again!     **";
+		cout << "\n\t\t\t\t\t\t *************************";
 		_getch();
 		menu();
 		break;
@@ -415,9 +423,8 @@ int main(int argc, char **argv) {
 	}
 	else {
 
-		values = { 25,15,10,4,12,22,18,24,50,70,66,90,35,31,44 }; //example 1 image included in source
-		//values = { 25,15,10,12,22,18,50,70,6,90,35,31,17, 9, 5, 21, 19, 6, 59, 4, 29, 28, 25, 26, 14	};  //random
-		//values = { 43,15,8,30,20,35,60,50,82,70 };  //example 2  image included in source
+		values = { 25,15,10,4,12,22,18,24,50,70,66,90,35,31,44 }; //example 1 ..image included in source
+		//values = { 43,15,8,30,20,35,60,50,82,70 };  //example 2  ..image included in source
 
 		srand((int)time(0));
 
@@ -427,12 +434,6 @@ int main(int argc, char **argv) {
 
 		cout << endl << "entered data::" << endl;
 		printVector(values);
-		cout << endl << "inorder is::" << endl;
-		binary.inorder(binary.root);
-		cout << endl << "preorder is::" << endl;
-		binary.preorder(binary.root);
-		cout << endl << "postorder is::" << endl;
-		binary.postorder(binary.root);
 		_getch();
 		menu();
 

@@ -39,16 +39,19 @@ Tree::Tree() {
 
 }
 Tree::~Tree() {
-	cout << "\t\t\t\t***************** Tree destroyed *****************";
-	cout << "\n\n\n\t\t\t\t\t   PRESS ANY KEY TO EXIT !";
+	cout << "\n\n";
+	cout << "\n\t\t\t\t\t\t *************************";
+	cout << "\n\t\t\t\t\t\t **   Tree Destroyed    **";
+	cout << "\n\t\t\t\t\t\t *************************";
+	cout << "\n\n\n\t\t\t\t\t\t  PRESS ANY KEY TO EXIT !";
 	_getch();
 }
 
 //return code for insert:
-//0 :element added as left child
-//1 :element added as right child
-//2 :element added as root
-//3 :duplicate found (no insertion)
+//		0 :element added as left child
+//		1 :element added as right child
+//		2 :element added as root
+//		3 :duplicate found (no insertion)
 int Tree::insert(int data) {
 
 
@@ -122,10 +125,10 @@ int Tree::insert(int data) {
 
 
 //return codes for search
-//0-element found on left link of parent
-//1-element found on right link of parent
-//2-element not found
-//3-element found at root
+//		0-element found on left link of parent
+//		1-element found on right link of parent
+//		2-element not found
+//		3-element found at root
 int Tree::search(int data) {
 	int dir;
 	bool found = false;
@@ -216,8 +219,8 @@ int Tree::search(int data) {
 
 
 //return code for delete
-//	0- sucessfully deleted
-//	1- element not found
+//		0- sucessfully deleted
+//		1- element not found
 int Tree::del(int data) {
 	int status = search(data);
 
@@ -420,7 +423,7 @@ void Tree::setPos(Node * node)
 		node->pos.Y = tempc.Y / 20;
 	}
 	if (node->gap == 0) {
-		node->gap = tempc.X / 5;
+		node->gap = tempc.X /4;
 	}
 	if (node->left) {
 		node->left->pos.X = node->pos.X + 1 - node->gap;
@@ -454,7 +457,7 @@ void Tree::setPos(Node * node)
 
 
 int lvl=NULL;
-
+int no_deleted;
 void Tree::plot(Node * node)
 {
 	if (node == NULL)
@@ -521,8 +524,10 @@ void Tree::clearPos(Node * node)
 	}
 
 }
-///dir=1 means line frm p1 to p2 is elevating
-//di=-1 means line frm p1 to p2 is decending
+
+//dir:
+//		dir=1 means line frm p1 to p2 is elevating
+//		dir=-1 means line frm p1 to p2 is decending
 void Tree::line(COORD p1, COORD p2, int dir)
 {
 	//my algo
@@ -633,6 +638,10 @@ void Tree::line(COORD p1, COORD p2, int dir)
 
 void Tree::delete_all(Node * node)
 {
+	if (node == NULL) {
+		cout << "\n\n\t\t\t\t\t" << "Tree is already empty ";
+		return;
+	}
 
 	if (node == root) {
 		root->pos.X = NULL;
@@ -640,15 +649,17 @@ void Tree::delete_all(Node * node)
 		root->gap = 0;
 		ptr = root;
 		depth = 0;
-		total_node = 0;
+		total_node--;
 		root = NULL;
 		
 	}
+	else {
+		delete node;
+		no_deleted++;
+		total_node--;
+		cout << "\n\t\t\t\t\t--------- " << no_deleted << " nodes deleted ------------";
+	}
 		
-
-
-	
-	
 	if (node->left) {
 		delete_all(node->left);
 	}
