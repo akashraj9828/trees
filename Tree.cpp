@@ -43,6 +43,7 @@ Tree::~Tree() {
 	cout << "\n\t\t\t\t\t\t *************************";
 	cout << "\n\t\t\t\t\t\t **   Tree Destroyed    **";
 	cout << "\n\t\t\t\t\t\t *************************";
+	cout << "\n\n\n\n\t\t\t\t\t\t     THANKS FOR USING";
 	cout << "\n\n\n\t\t\t\t\t\t  PRESS ANY KEY TO EXIT !";
 	_getch();
 }
@@ -408,7 +409,13 @@ void Tree::postorder(Node *node) {
 }
 
 
+
+/////////// Xtra Variables //////////////
 int step = 0;
+int lvl = NULL;
+int no_deleted=0;
+/////////// Xtra Variables //////////////
+
 void Tree::setPos(Node * node)
 {
 	step++;
@@ -425,7 +432,7 @@ void Tree::setPos(Node * node)
 	if (node->gap == 0) {
 		node->gap = tempc.X /4;
 	}
-	if (node->left) {
+	if (node->left ) {
 		node->left->pos.X = node->pos.X + 1 - node->gap;
 		node->left->pos.Y = node->pos.Y + 6;
 		node->left->gap = node->gap / 2;
@@ -456,8 +463,7 @@ void Tree::setPos(Node * node)
 
 
 
-int lvl=NULL;
-int no_deleted;
+
 void Tree::plot(Node * node)
 {
 	if (node == NULL)
@@ -465,6 +471,9 @@ void Tree::plot(Node * node)
 
 	gotoxy(node->pos.X, node->pos.Y);
 	cout << node->value;
+	gotoxy(1, node->pos.Y);
+	cout << "level->" << node->level;
+
 	if (lvl == NULL) {
 		lvl = node->level;
 	}
