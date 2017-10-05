@@ -56,7 +56,7 @@ public:
 	void setPos(Node *node);		//sets (x,y) coordinates for each node
 	void clearPos(Node *node);		//resets/clears (x,y) coordinates of each node
 	void plot(Node *node);			//plots all the nodes in console based on their coordinate(x,y)
-	void line(COORD p1, COORD p2,int dir);		//draws dotted line from p1 to p2
+	void line(COORD p1, COORD p2,int dir,char c);		//draws dotted line from p1 to p2
 	void delete_all(Node *node);
 
 }; extern Tree binary;

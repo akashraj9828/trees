@@ -478,7 +478,7 @@ void Tree::plot(Node * node)
 		lvl = node->level;
 	}
 	if (node->left && (node->left->level)<=3+lvl) {
-		line(node->left->pos, node->pos, 1);
+		line(node->left->pos, node->pos, 1,'.');
 		plot(node->left);
 	}
 	else if (node->left) {
@@ -496,7 +496,7 @@ void Tree::plot(Node * node)
 
 
 	if (node->right && (node->right->level) <= 3+lvl) {
-		line(node->pos, node->right->pos, -1);
+		line(node->pos, node->right->pos, -1,'.');
 		plot(node->right);
 	}
 	else if (node->right) {
@@ -537,7 +537,7 @@ void Tree::clearPos(Node * node)
 //dir:
 //		dir=1 means line frm p1 to p2 is elevating
 //		dir=-1 means line frm p1 to p2 is decending
-void Tree::line(COORD p1, COORD p2, int dir)
+void Tree::line(COORD p1, COORD p2, int dir,char c)
 {
 	//my algo
 	int dx, dy, x, y;
@@ -580,7 +580,7 @@ void Tree::line(COORD p1, COORD p2, int dir)
 
 		}
 		gotoxy(x, y);
-		cout << ".";
+		cout << c;
 	}
 	//////breshnam
 	/*int dx, dy, p, x, y;

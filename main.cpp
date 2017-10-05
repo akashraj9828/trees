@@ -96,8 +96,9 @@ void addNode() {
 	}
 }
 void searchNode() {
+	binary.setPos(binary.root);
 	system("cls");
-	cout << "\n NODE SEARCH MENU ::\n\n";
+	cout << "\n NODE SEARCHING MENU ::\n\n";
 	cout << "\n ENTER THE NODE TO BE SEARCHED:\t";
 	int data;
 	cin >> data;
