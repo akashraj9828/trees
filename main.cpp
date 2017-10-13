@@ -7,9 +7,8 @@
 #include<ctime>
 #include"Tree.h"
 #include"Node.h"
-//#include<SDL2\SDL.h>
-//#include<gl\glew.h>
-//#include"Display.h"
+
+
 #define RAND_MAX 200
 
 using namespace std;
@@ -326,54 +325,87 @@ void randomNode() {
 	printVector(values);
 	getch();
 }
+
+/*****Color code*****/
+/*
+0 = Black       8 = Gray
+1 = Blue        9 = Light Blue
+2 = Green       A = Light Green
+3 = Aqua        B = Light Aqua
+4 = Red         C = Light Red
+5 = Purple      D = Light Purple
+6 = Yellow      E = Light Yellow
+7 = White       F = Bright White
+*/
+/********************/
+
 void operation(int choice) {
 	switch (choice) {
 	case 1:
+		system("color 0a");			//water blue
 		addNode();
+		 
 		break;
 	case 2:
+		system("color 0c");		//red
 		deleteNode();
+		 
 		break;
 	case 3:
+		system("color 0b");		
 		traverse();
+		 
 		break;
 	case 4:
+		system("color 0d");
 		searchNode();
+		 
 		break;
 	case 5:
+		system("color 71");
 		printNode();
 		_getch();
+		 
 		menu();
 		break;
 	case 6:
+		system("color b5");
 		randomNode();
+		 
 		menu();
 		break;
 	case 7:
+		system("color 1c");
 		binary.delete_all(binary.root);
 		cout << "\n\n\n\t\t\t ^^^^^^^^^^^^^ All nodes of tree deleted ^^^^^^^^^^^^^";
 		getch();
+		 
 		menu();
 		break;
 	case 8:
+		system("color cf");
 		binary.delete_all(binary.root);
 		cout << "\n\n\n\t\t\t ^^^^^^^^^^^^^ All nodes of tree deleted ^^^^^^^^^^^^^";
+		 
 		_getch();
 		return;
 		break;
 	default:
+		system("color 8f");
 		cout << "\n\n";
 		cout << "\n\t\t\t\t\t\t *************************";
 		cout << "\n\t\t\t\t\t\t ** Oops WRONG CHOICE!! **";
 		cout << "\n\t\t\t\t\t\t **      Try again!     **";
 		cout << "\n\t\t\t\t\t\t *************************";
 		_getch();
+		 
 		menu();
 		break;
 	}
 }
 int menu() {
 
+	system("color 3f");
 	system("cls");
 	//gotoxy(xy.X / 2 - 10, xy.Y / 3);
 	cout << "\n\n\n";
@@ -394,27 +426,10 @@ int menu() {
 	return 0;
 }
 
-//int window() {
-//	Display display(400, 400, "OpenGL");
-//	while (!display.isClosed()) {
-//		glClearColor(0.8f, 0.9f, 0.2f, 1.9f);
-//		glClear(GL_COLOR_BUFFER_BIT);
-//		display.Update();
-//	}
-//	getch();
-//	return 0;
-//}
 int main(int argc, char **argv) {
 
 
 	bool debugging = false;
-	//bool opengl = false;
-
-
-
-
-	//if(opengl)
-	//window();
 
 
 	if (!debugging) {
